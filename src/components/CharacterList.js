@@ -1,4 +1,4 @@
-const characterList = {
+const CharacterList = {
   characters: [
     {
       id: 1,
@@ -10,4 +10,4 @@ const characterList = {
     }
   ]
 };
-export default characterList;
+export default CharacterList;

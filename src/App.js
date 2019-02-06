@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Characters from './components/Characters';
-import characterList from './components/CharacterList';
+import CharacterList from './components/CharacterList';
 
 function App() {
   const [state, setState] = useState({
-    ...characterList
+    ...CharacterList
     // characters: [
     //   {
     //     id: 1,

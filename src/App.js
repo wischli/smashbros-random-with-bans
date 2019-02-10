@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import Characters from './components/Characters';
 import CharacterList from './components/CharacterList';
 
-function App() {
-  const [state, setState] = useState({
+// const changeCharacters = (chars) => {
+//   return characters.slice(0,1);
+// }
+// export default changeCharacters;
+
+const App = () => {
+  const [state, changeState] = useState({
     ...CharacterList
+  }
     // characters: [
     //   {
     //     id: 1,
@@ -17,23 +23,26 @@ function App() {
     //     image: 'donkeykong.png'
     //   }
     // ]
-  });
-  const testState = () => {
+  );
+  const testState = (state, id = -1) => {
+    console.log(id);
     return {
-      characters: [
-        ...state.characters,
-        {
-          id: 1,
-          name: 'Kirby',
-          image: 'kirby.png'
-        }
-      ]
+      characters: state.characters.filter(char => char.id !== id),
+      // characters: [
+        // ...state.characters,
+        // {
+        //   id: 1,
+        //   name: 'Kirby',
+        //   image: 'kirby.png'
+        // }
+      // ]
     };
   };
   return (
     <div>
-      <Characters characters={state.characters} />
-      <button type="button" onClick={() => setState(testState)}>
+      <Characters characters={state.characters} handleClick={(id) => changeState(testState(state, id))} onChange={() => console.log("YOO")} />
+      // changeState(testState(state))} />
+      <button type="button" onClick={() => changeState(testState(state))}>
         BUTTON
       </button>
     </div>

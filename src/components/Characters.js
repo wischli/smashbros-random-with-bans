@@ -2,41 +2,54 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
+
 // import characterList from './CharacterList';
 
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
 
-const imageFolder = `${window.location.origin}/images/character_icons`;
+const imageFolder = `${window.location.href}/images/character_icons`;
 const getStyle = (prop, styleKey = '') => {
   // console.log('styleKey: ', styleKey);
   let imageColor = '';
+  let opacity = 1;
   if (prop.played){
-    imageColor = 'rgba(0, 255, 137, 0.64)';
+    imageColor = '#00cc51';
     // imageColor = '#d9d9d9';
+    opacity = 0.6;
   }
   else if (prop.enabled){
     // imageColor = '#00ff89';
     imageColor = 'white';
+    opacity = 1;
   }
   else if (!prop.enabled){
     imageColor = '#ff0000b8';
+    opacity = 0.6;
   }
   // console.log(prop.played, imageColor);
   const style = {
-    character: {},
-    image: {
-      maxWidth: window.innerWidth < 401 ? 55 : 80,
-      // backgroundColor: 'black',
-      borderRadius: '50%',
-      padding: prop.enabled ? 2 : 2,
-      opacity: prop.enabled ? 1 : 0.5,
-      // margin: 2,
+    character: {
+      maxWidth: window.innerWidth < 1000 ? 60 : 85,
+      maxHeight: window.innerWidth < 1000 ? 60 : 85,
       backgroundColor: imageColor,
+      borderRadius: '100%',
+      display: prop.display ? 'block' : 'none',
+    },
+    image: {
+      margin: 'auto',
+      display: 'block',
+      maxWidth: window.innerWidth < 1000 ? 55 : 80,
+      // backgroundColor: 'black',
+      // borderRadius: '50%',
+      padding: prop.enabled ? 1 : 1,
+      opacity,
+      // margin: 2,
+      // backgroundColor: imageColor,
     },
     characters: {
       backgroundColor: '#486471',
-      padding: window.innerWidth < 400 ? 5 : 30,
+      padding: window.innerWidth < 1000 ? 5 : 30,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -59,15 +72,16 @@ function imigify(name) {
 
 const Character = props => {
   const { character } = props;
-  const { handleClick } = useContext(Context);
+  const { handleCharClick } = useContext(Context);
   return (
     <div
       className="character"
       role="button"
       tabIndex={0}
       id={character.id}
-      onClick={() => handleClick(character.id)}
-      onKeyPress={() => handleClick(character.id)}
+      onClick={() => handleCharClick(character.id)}
+      onKeyPress={() => handleCharClick(character.id)}
+      style={getStyle(character, 'character')}
     >
       <img src={imigify(character.name)} style={getStyle(character, 'image')} alt={character.name} />
     </div>
@@ -75,9 +89,9 @@ const Character = props => {
 };
 
 const Characters = () => {
-  const { characters } = useContext(Context);
+  const { characters, themeStyle } = useContext(Context);
   return (
-    <div className="characters" style={getStyle(characters, 'characters')}>
+    <div className="characters" style={{...getStyle(characters, 'characters'), ...themeStyle.backgroundColor}}>
       {characters.map(character => (
         <Character
           key={character.id}
@@ -95,6 +109,7 @@ export default Characters;
 Character.propTypes = {
   character: PropTypes.shape({
     id: PropTypes.number,
+    key: PropTypes.number,
     name: PropTypes.string
   }).isRequired
 };

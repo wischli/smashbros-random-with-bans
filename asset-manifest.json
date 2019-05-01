@@ -1,13 +1,13 @@
 {
   "main.css": "/smashbros-random-with-bans/static/css/main.a601c093.chunk.css",
-  "main.js": "/smashbros-random-with-bans/static/js/main.1bb9f20d.chunk.js",
-  "main.js.map": "/smashbros-random-with-bans/static/js/main.1bb9f20d.chunk.js.map",
-  "runtime~main.js": "/smashbros-random-with-bans/static/js/runtime~main.6ba0746f.js",
-  "runtime~main.js.map": "/smashbros-random-with-bans/static/js/runtime~main.6ba0746f.js.map",
-  "static/js/2.7509f2cf.chunk.js": "/smashbros-random-with-bans/static/js/2.7509f2cf.chunk.js",
-  "static/js/2.7509f2cf.chunk.js.map": "/smashbros-random-with-bans/static/js/2.7509f2cf.chunk.js.map",
+  "main.js": "/smashbros-random-with-bans/static/js/main.49a5a07f.chunk.js",
+  "main.js.map": "/smashbros-random-with-bans/static/js/main.49a5a07f.chunk.js.map",
+  "runtime~main.js": "/smashbros-random-with-bans/static/js/runtime~main.449fe8d7.js",
+  "runtime~main.js.map": "/smashbros-random-with-bans/static/js/runtime~main.449fe8d7.js.map",
+  "static/js/2.80309cc4.chunk.js": "/smashbros-random-with-bans/static/js/2.80309cc4.chunk.js",
+  "static/js/2.80309cc4.chunk.js.map": "/smashbros-random-with-bans/static/js/2.80309cc4.chunk.js.map",
   "index.html": "/smashbros-random-with-bans/index.html",
-  "precache-manifest.15ef2edf11945ed6cc9b2f0bb944a638.js": "/smashbros-random-with-bans/precache-manifest.15ef2edf11945ed6cc9b2f0bb944a638.js",
+  "precache-manifest.a6775c14a47d9651aa09f6f002584f42.js": "/smashbros-random-with-bans/precache-manifest.a6775c14a47d9651aa09f6f002584f42.js",
   "service-worker.js": "/smashbros-random-with-bans/service-worker.js",
   "static/css/main.a601c093.chunk.css.map": "/smashbros-random-with-bans/static/css/main.a601c093.chunk.css.map"
 }

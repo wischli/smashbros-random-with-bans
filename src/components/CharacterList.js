@@ -397,7 +397,7 @@ const CharacterList = [
   },
   {
     id: 26,
-    name: 'Charizard',
+    name: 'Pokemon Trainer',
     media: [],
     nicknames: [],
     enabled: true,
@@ -407,30 +407,42 @@ const CharacterList = [
     display: true,
     moves: []
   },
-  {
-    id: 26.7,
-    name: 'Ivysaur',
-    media: [],
-    nicknames: [],
-    enabled: true,
-    played: false,
-    randomOrder: -1,
-    echo: [],
-    display: true,
-    moves: []
-  },
-  {
-    id: 26.8,
-    name: 'Squirtle',
-    media: [],
-    nicknames: [],
-    enabled: true,
-    played: false,
-    randomOrder: -1,
-    echo: [],
-    display: true,
-    moves: []
-  },
+  // {
+  //   id: 26,
+  //   name: 'Charizard',
+  //   media: [],
+  //   nicknames: [],
+  //   enabled: true,
+  //   played: false,
+  //   randomOrder: -1,
+  //   echo: [],
+  //   display: true,
+  //   moves: []
+  // },
+  // {
+  //   id: 26.7,
+  //   name: 'Ivysaur',
+  //   media: [],
+  //   nicknames: [],
+  //   enabled: true,
+  //   played: false,
+  //   randomOrder: -1,
+  //   echo: [],
+  //   display: true,
+  //   moves: []
+  // },
+  // {
+  //   id: 26.8,
+  //   name: 'Squirtle',
+  //   media: [],
+  //   nicknames: [],
+  //   enabled: true,
+  //   played: false,
+  //   randomOrder: -1,
+  //   echo: [],
+  //   display: true,
+  //   moves: []
+  // },
   {
     id: 27,
     name: 'Lucario',

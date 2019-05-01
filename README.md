@@ -1,68 +1,32 @@
+The alpha version can be found here: https://wischli.github.io/smashbros-random-with-bans/
+
+"Unfortunately", I had to **pause my work on this project** as I have to put all my free time in the **planning of my wedding** (August 24h 2019) and honeymoon (road trip through the Canadian Rocky Mountains).
+
+## Guide
+
+- re-/deactivate characters you do not wish to have in your random set by clicking on them once
+- once your list is finished, save the state by clicking on "save as cookie"
+- click randomize to shuffle your wishlist, the top leftmost character is intended to be your first pick (will be displayed as a tinder-esque React alert component in the future)
+- set "round played" for every round you have completed, removing your last character from the list of possible characters and setting the next one
+
+## Intention
+I have been playing Smash Bros since the age of 7 and been fascinated by this unique fighting game ever since. About 5 years ago my closest friends and I started to really get into 2on2. We experimented with different modes like best of fives in a random-pick-random-pick-random order.
+
+Due to the high amount of characters (especially with Echoes) in the newest Smash, our "frustration" with the implemented random mode has grown. Sometimes we play for 6-8 hours in tournament-esque, competitive modes and do not want our experience to be diminished by **poor random choices**, i.e. getting characters from our pick-list.
+
+In the old Smash we used to have a list of about 30 characters mapped to natural numbers so we could use a typical random generator. The vast amount of new characters in Smash Ultimate made this approach even more impracticable.
+
+Therefore, I built this simple web app to enable a fully **customizable random mode without repitition**. Hopefully, other Smash players will benefit from this as well.
+
+## Todos
+- [x] Add saving functionality using Cookies
+- [ ] Display next character in React alert component
+- [ ] Add option for multiple saves (auto-save and banks)
+- [ ] Add "help" and tooltips
+- [ ] Improve UI (especially mobile)
+- [ ] Add more options for customization
+- [ ] Improve UI (especially mobile)
+- [ ] Add auth0 login functionality
+
+### Misc
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

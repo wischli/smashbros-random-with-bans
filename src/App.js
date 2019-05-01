@@ -11,12 +11,12 @@ import { randomize, splitArray, unifyToArray } from './components/Utility';
 // }
 // export default changeCharacters;
 const initialOptions = {
-  echo: true,
+  echo: true
 };
 
 const App = () => {
   const [characters, changeCharacters] = useState([...CharacterList]);
-  const [options, setOptions] = useState(initialOptions)
+  const [options, setOptions] = useState(initialOptions);
 
   const characterEnable = (oldChars, id = -1) => {
     return oldChars.map(char => {
@@ -25,12 +25,17 @@ const App = () => {
   };
   const handleCharClick = id => changeCharacters(characterEnable(characters, id));
   const handleEchoClick = () => {
-    changeCharacters(characters.map(char => {
-      return {...char, display: char.echo.length  && char.echo[0] % 1 !== 0 ? !char.display : char.display}
-    }))
-    setOptions({...options, echo: !options.echo});
-  }
-  const handleCookieLoad = (chars) => changeCharacters(chars);
+    changeCharacters(
+      characters.map(char => {
+        return {
+          ...char,
+          display: char.echo.length && char.echo[0] % 1 !== 0 ? !char.display : char.display
+        };
+      })
+    );
+    setOptions({ ...options, echo: !options.echo });
+  };
+  const handleCookieLoad = chars => changeCharacters(chars);
   const roundPlayed = inputChars => {
     // check if all characters have been played or banned => reset
     if (inputChars.filter(char => char.played || !char.enabled).length === inputChars.length - 1) {
@@ -60,7 +65,7 @@ const App = () => {
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     backgroundColor: '#466370',
-    position: window.innerWidth < 1000 ? 'sticky' : '',
+    position: window.innerWidth < 1000 ? 'fixed' : '',
     bottom: window.innerWidth < 1000 ? '0' : ''
   };
   const buttonStyle = ({ left }) => {
@@ -68,24 +73,27 @@ const App = () => {
       width: '49%',
       backgroundColor: left ? '#ffb3b3' : '#99f9ae',
       color: left ? '#383838' : 'black',
-      borderColor: left ? '#383838' : 'black',
+      borderColor: left ? '#383838' : 'black'
     };
   };
   return (
-    <Context.Provider value={{ characters, handleCharClick, themeStyle, handleEchoClick, handleCookieLoad }}>
+    <Context.Provider
+      value={{ characters, handleCharClick, themeStyle, handleEchoClick, handleCookieLoad }}
+    >
+      <meta meta name="viewport" content="width=device-width, user-scalable=no" />
       <Characters />
       <Options />
       <div className="nav" style={navStyle}>
         <button
           type="button"
-          style={{...themeStyle.button, ...buttonStyle({left: true})}}
+          style={{ ...themeStyle.button, ...buttonStyle({ left: true }) }}
           onClick={() => changeCharacters(randomize(characters))}
         >
           Randomize
         </button>
         <button
           type="button"
-          style={{...themeStyle.button, ...buttonStyle({left: false})}}
+          style={{ ...themeStyle.button, ...buttonStyle({ left: false }) }}
           onClick={() => changeCharacters(roundPlayed(characters))}
         >
           Round completed

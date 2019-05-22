@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/smashbros-random-with-bans/precache-manifest.fd1f73c3cd2a47226079c8171ba4fb6e.js"
+  "/smashbros-random-with-bans/precache-manifest.fc7394088b539959843c7efa5e354259.js"
 );
 
 workbox.clientsClaim();

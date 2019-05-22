@@ -113,3 +113,5 @@ Character.propTypes = {
     name: PropTypes.string
   }).isRequired
 };
+
+export { Character, imigify };

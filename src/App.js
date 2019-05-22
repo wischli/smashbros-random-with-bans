@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import Characters from './components/Characters';
 import CharacterList from './components/CharacterList';
 import Context from './components/Context';
-import Options from './components/Options';
+import MyCard from './components/MyCard';
+import MyBar from './components/MyBar';
 import themeStyle from './components/ThemeStyle';
-import { randomize, splitArray, unifyToArray } from './components/Utility';
+import { randomize, splitArray, unifyToArray, getLastPlayed } from './components/Utility';
 
 // const changeCharacters = (chars) => {
 //   return characters.slice(0,1);
@@ -17,19 +18,26 @@ const initialOptions = {
 const App = () => {
   const [characters, changeCharacters] = useState([...CharacterList]);
   const [options, setOptions] = useState(initialOptions);
+  const [displayCard, changeDisplay] = useState(false);
 
   const characterEnable = (oldChars, id = -1) => {
     return oldChars.map(char => {
       return char.id === id ? { ...char, enabled: !char.enabled } : { ...char };
     });
   };
+  const handleDisplayClick = () => changeDisplay(!displayCard);
   const handleCharClick = id => changeCharacters(characterEnable(characters, id));
+  const handleRandomizeClick = chars => {
+    changeCharacters(randomize(chars));
+    handleDisplayClick(!displayCard);
+  };
+  const displayEchoChar = (char) => char.echo.length && char.echo[0] % 1 !== 0 ? !char.display : char.display;
   const handleEchoClick = () => {
     changeCharacters(
       characters.map(char => {
         return {
           ...char,
-          display: char.echo.length && char.echo[0] % 1 !== 0 ? !char.display : char.display
+          display: displayEchoChar(char),
         };
       })
     );
@@ -58,47 +66,49 @@ const App = () => {
     chars.push(char);
     return unifyToArray(splitArray(chars));
   };
-  const navStyle = {
-    width: 'calc(100% - 20px)',
-    padding: '10px',
-    display: 'flex',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-between',
-    backgroundColor: '#466370',
-    position: window.innerWidth < 1000 ? 'fixed' : '',
-    bottom: window.innerWidth < 1000 ? '0' : ''
+
+  const handleNextClick = chars => {
+    // TODO: fix hidden
+    const validChars = chars.filter(char => char.display);
+    changeCharacters(roundPlayed(validChars))
   };
-  const buttonStyle = ({ left }) => {
-    return {
-      width: '49%',
-      backgroundColor: left ? '#ffb3b3' : '#99f9ae',
-      color: left ? '#383838' : 'black',
-      borderColor: left ? '#383838' : 'black'
-    };
+  const handlePrevClick = chars => {
+    const validChars = [...chars];
+    // TODO: handle case for banned players
+    const index = getLastPlayed(chars);
+    const lastChar = chars[index];
+    if (lastChar.played) {
+      lastChar.played = false;
+      return changeCharacters([lastChar, ...chars.slice(0, index - 1), ...chars.slice(index - 1, -1)]);
+    }
+    return validChars;
   };
+
   return (
     <Context.Provider
-      value={{ characters, handleCharClick, themeStyle, handleEchoClick, handleCookieLoad }}
+      value={{
+        characters,
+        handleCharClick,
+        themeStyle,
+        handleEchoClick,
+        handleCookieLoad,
+        handleNextClick,
+        handlePrevClick,
+        handleDisplayClick,
+        handleRandomizeClick,
+        displayCard,
+        options
+      }}
     >
+    <div className="wrapper">
       <meta meta name="viewport" content="width=device-width, user-scalable=no" />
-      <Characters />
-      <Options />
-      <div className="nav" style={navStyle}>
-        <button
-          type="button"
-          style={{ ...themeStyle.button, ...buttonStyle({ left: true }) }}
-          onClick={() => changeCharacters(randomize(characters))}
-        >
-          Randomize
-        </button>
-        <button
-          type="button"
-          style={{ ...themeStyle.button, ...buttonStyle({ left: false }) }}
-          onClick={() => changeCharacters(roundPlayed(characters))}
-        >
-          Round completed
-        </button>
+      <div className="content" style={{ marginTop: 70, height: '100vh', backgroundColor: 'rgb(72, 100, 113)', opacity: displayCard ? 0.5 : 1 }}>
+        <Characters />
       </div>
+      <MyBar />
+      <MyCard />
+    </div>
+
     </Context.Provider>
   );
 };

@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/smashbros-random-with-bans/static/js/runtime~main.449fe8d7.js"
   },
   {
-    "revision": "284123558ac2a0f964f5",
-    "url": "/smashbros-random-with-bans/static/js/main.a61d694a.chunk.js"
+    "revision": "a1d61d5c9c481ab1a307",
+    "url": "/smashbros-random-with-bans/static/js/main.f99cfc61.chunk.js"
   },
   {
-    "revision": "f3d8c0e130874d86f068",
-    "url": "/smashbros-random-with-bans/static/js/2.8720bf80.chunk.js"
+    "revision": "8efc412ea81e2781be14",
+    "url": "/smashbros-random-with-bans/static/js/2.154d09c4.chunk.js"
   },
   {
-    "revision": "284123558ac2a0f964f5",
+    "revision": "a1d61d5c9c481ab1a307",
     "url": "/smashbros-random-with-bans/static/css/main.28e6ca61.chunk.css"
   },
   {
-    "revision": "2538165356cb31338a41ee37c51bebb9",
+    "revision": "858dee23b320aecb5d9f90f3dfd61380",
     "url": "/smashbros-random-with-bans/index.html"
   }
 ];

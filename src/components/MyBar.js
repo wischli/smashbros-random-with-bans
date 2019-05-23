@@ -11,20 +11,20 @@ const navStyle = {
   flexWrap: 'nowrap',
   justifyContent: 'space-between',
   backgroundColor: '#466370',
-  position: window.innerWidth < 1000 ? 'fixed' : '',
+  position: 'fixed',
   height: 50,
   top: 0,
   alignItems: 'center',
   // bottom: window.innerWidth < 1000 ? '0' : ''
 };
-const buttonStyle = ({ left }) => {
-  return {
-    width: '49%',
-    backgroundColor: left ? '#ffb3b3' : '#99f9ae',
-    color: left ? '#383838' : 'black',
-    borderColor: left ? '#383838' : 'black'
-  };
-};
+// const buttonStyle = ({ left }) => {
+//   return {
+//     width: '49%',
+//     backgroundColor: left ? '#ffb3b3' : '#99f9ae',
+//     color: left ? '#383838' : 'black',
+//     borderColor: left ? '#383838' : 'black'
+//   };
+// };
 
 const MyBar = () => {
   const [randomizeClicked, changeRandomizedClicked] = useState(false);

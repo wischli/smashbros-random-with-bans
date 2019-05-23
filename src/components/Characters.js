@@ -5,7 +5,8 @@ import Context from './Context';
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
 
-const imageFolder = `${window.location.href}/images/character_icons`;
+const imageFolder = `https://wischli.github.io/smashbros-random-with-bans/images/character_icons`;
+// const imageFolder = `${window.location.href}images/character_icons`;
 const getStyle = (prop, styleKey = '') => {
   // console.log('styleKey: ', styleKey);
   let imageColor = '';

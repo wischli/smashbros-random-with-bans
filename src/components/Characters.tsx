@@ -11,15 +11,19 @@ const getStyle = (prop: Icharacter, styleKey = ''): any => {
     let imageColor = '';
     let opacity = 1;
     if (prop.played) {
-        imageColor = '#00cc51';
+        imageColor = '#70f78e';
         // imageColor = '#d9d9d9';
+        opacity = 0.6;
+    } else if (!prop.display) {
+        imageColor = 'grey';
         opacity = 0.6;
     } else if (prop.enabled) {
     // imageColor = '#00ff89';
         imageColor = 'white';
         opacity = 1;
     } else if (!prop.enabled) {
-        imageColor = '#ff0000b8';
+        imageColor = '#ff6767b8';
+        // imageColor = '#ff0000b8';
         opacity = 0.6;
     }
     // console.log(prop.played, imageColor);
@@ -76,6 +80,7 @@ export const Character = (props: any) => {
                 src={character.media}
                 style={getStyle(character, 'image')}
                 alt={character.name}
+                className={character.played ? 'played' : character.enabled ? 'enabled' : 'disabled'}
             />
         </div>
     );
@@ -90,10 +95,11 @@ const Characters = () => {
         >
         {
           Object.keys(state).map((key: string) => {
+            const className = `characters ${key}`;
             return (
               <div key={key + '-wrapper'} style={themeStyle.characterRow}>
                 <h2 style={themeStyle.characterRowTitle}>{key}</h2>
-                <div className="characters" style={{...getStyle(state.enabled[0], 'characters')}} key={key}>
+                <div className={className} style={{...getStyle(state.enabled[0], 'characters')}} key={key}>
                 {state[key as keyof Istate].map((character: Icharacter) => (
                     <Character key={character.id} character={character} />
                 ))}

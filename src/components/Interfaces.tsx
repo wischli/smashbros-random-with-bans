@@ -16,6 +16,7 @@ export interface IcookieState {
     played: number[];
     disabled: number[];
     hidden: number[];
+    date: string;
 }
 
 export interface Istate {
@@ -23,6 +24,11 @@ export interface Istate {
     played: Icharacter[];
     disabled: Icharacter[];
     hidden: Icharacter[];
+}
+
+export interface Icookies {
+  characters: IcookieState | boolean;
+  notice: boolean;
 }
 
 export enum ReducerAction {

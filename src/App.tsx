@@ -1,69 +1,98 @@
 import React, { useState, useReducer } from 'react';
 import Characters from './components/Characters';
 import { CharacterList, initialCharState } from './components/CharacterList';
+import CookieNotice from './components/CookieNotice';
+import Cookies from 'universal-cookie';
 import Context, { Icontext } from './components/Context';
 import MyCard from './components/MyCard';
 import MyBar from './components/MyBar';
-import { Istate, Icharacter, ReducerAction} from './components/Interfaces';
+import { Istate, Icharacter, ReducerAction, Icookies, IcookieState } from './components/Interfaces';
 import themeStyle from './components/ThemeStyle';
 import { myReducer } from './components/MyReducer';
 
-// const changeCharacters = (chars) => {
-//   return characters.slice(0,1);
-// }
-// export default changeCharacters;
 const initialOptions = {
-  echo: true
+    echo: true,
 };
 
 const App = () => {
-  // const [characters, changeCharacters] = useState([...CharacterList]);
-  const [state, dispatch]: [Istate, any] = useReducer(myReducer, initialCharState);
-  const [options, setOptions] = useState(initialOptions);
-  const [displayCard, changeDisplay] = useState(false);
-  const handleDisplayClick = () => changeDisplay(!displayCard);
-  const handleCharClick = (char: Icharacter) => dispatch({ type: ReducerAction.toggleChar, character: char})
-  const handleRandomizeClick = () => {
-    dispatch({ type: ReducerAction.randomize });
-    return handleDisplayClick();
-  };
-  const handleEchoClick = () => {
-    setOptions({ ...options, echo: !options.echo });
-    return dispatch({ type: ReducerAction.echo });
-  };
-  const handleCookieLoad = (cookieState: Istate) => dispatch({ cookieState, type: ReducerAction.restore });
-  const handleNextClick = () => dispatch({ type: ReducerAction.next });
-  const handlePrevClick = () => dispatch({ type: ReducerAction.previous });
+    // cookies
+    const cookyInstance = new Cookies();
+    const cookieCharacters = cookyInstance.get('characters');
+    const cookieCheck: boolean = cookieCharacters !== undefined && typeof(cookieCharacters) === 'object' && Object.keys(cookieCharacters).length > 0;
+    const cookies: Icookies = {
+      characters: cookieCheck ? cookieCharacters as IcookieState : false,
+      notice: cookyInstance.get('notice') === undefined ? true : false,
+    };
 
-  const myContext: Icontext = {
-    state,
-    handleCharClick,
-    themeStyle,
-    handleEchoClick,
-    handleCookieLoad,
-    handleNextClick,
-    handlePrevClick,
-    handleDisplayClick,
-    handleRandomizeClick,
-    displayCard,
-    options
-  };
+    // state & reducers
+    const [state, dispatch]: [Istate, any] = useReducer(myReducer, initialCharState);
+    const [options, setOptions] = useState(initialOptions);
+    const [displayCard, changeDisplay] = useState(false);
+    const [displayLoad, disableLoad] = useState(cookieCheck);
+    const [displayRandomize, disableRandomize] = useState(false);
 
-  return (
-    <Context.Provider
-      value={myContext}
-    >
-    <div className="wrapper">
-      <meta name="viewport" content="width=device-width, user-scalable=no" />
-      <div className="content" style={{ marginTop: 70, height: '100vh', backgroundColor: 'rgb(72, 100, 113)', opacity: displayCard ? 0.5 : 1 }}>
-        <Characters />
-      </div>
-      <MyBar />
-      <MyCard />
-    </div>
+    // handlers
+    const handleDisplayClick = () => changeDisplay(!displayCard);
+    const handleCharClick = (char: Icharacter) => dispatch({ type: ReducerAction.toggleChar, character: char });
+    const handleRandomizeClick = () => {
+        dispatch({ type: ReducerAction.randomize });
+        disableRandomize(true);
+        return handleDisplayClick();
+    };
+    const handleEchoClick = () => {
+        setOptions({ ...options, echo: !options.echo });
+        return dispatch({ type: ReducerAction.echo });
+    };
+    const handleCookieLoad = (cookieState: IcookieState) => {
+      disableLoad(false);
+      dispatch({ cookieState, type: ReducerAction.restore });
+      disableRandomize(true);
+      return changeDisplay(true);
+    }
+    const handleNextClick = () => dispatch({ type: ReducerAction.next });
+    const handlePrevClick = () => dispatch({ type: ReducerAction.previous });
 
-    </Context.Provider>
-  );
+    // context
+    const myContext: Icontext = {
+        cookies,
+        state,
+        handleCharClick,
+        themeStyle,
+        handleEchoClick,
+        handleCookieLoad,
+        handleNextClick,
+        handlePrevClick,
+        handleDisplayClick,
+        handleRandomizeClick,
+        displayCard,
+        displayLoad,
+        disableLoad,
+        displayRandomize,
+        options,
+    };
+
+    // components
+    return (
+        <Context.Provider value={myContext}>
+            <div className="wrapper">
+                <meta name="viewport" content="width=device-width, user-scalable=no" />
+                <div
+                    className="content"
+                    style={{
+                        marginTop: 70,
+                        height: '100vh',
+                        backgroundColor: themeStyle.bgContent,
+                        opacity: displayCard || displayLoad ? 0.5 : 1,
+                    }}
+                >
+                <CookieNotice />
+                    <Characters />
+                </div>
+                <MyBar />
+                <MyCard />
+            </div>
+        </Context.Provider>
+    );
 };
 
 export default App;

@@ -15,12 +15,23 @@ code {
 
 
 .close {
-  opacity: 0.5;
+  opacity: 1;
 }
 .close:hover {
   opacity: 1;
+  background-color: #ffb3b3 !important;
+  transition: background ease-in-out .5s;
 }
 .close:before, .close:after {
+  position: absolute;
+  left: 13px;
+  content: ' ';
+  height: 19px;
+  width: 2px;
+  top: 4px;
+  background-color: white;
+}
+.close2:before, .close2:after {
   position: absolute;
   left: 23px;
   content: ' ';
@@ -35,3 +46,24 @@ code {
 .close:after {
   transform: rotate(-45deg);
 }
+
+/* .characters.enabled > .character {
+  background-color: white;
+}
+.characters.enabled > .character > img {
+  opacity: 1;
+}
+
+.characters.played > .character {
+  background-color: #00cc51;
+}
+.characters.played > .character > img,
+.characters.disabled > .character > img,
+.characters.hidden > .character > img {
+  opacity: 0.6;
+}
+
+.characters.disabled > .character,
+.characters.hidden > .character {
+  background-color: #ff0000b8;
+} */

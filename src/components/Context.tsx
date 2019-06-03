@@ -1,7 +1,8 @@
 import React from 'react';
-import { Istate } from './Interfaces';
+import { Istate, Icookies } from './Interfaces';
 
 export interface Icontext {
+    cookies: Icookies;
     state: Istate;
     handleCharClick: any;
     themeStyle: any;
@@ -12,6 +13,9 @@ export interface Icontext {
     handleDisplayClick: any;
     handleRandomizeClick: any;
     displayCard: boolean;
+    displayLoad: boolean;
+    disableLoad: any;
+    displayRandomize: any;
     options: any;
 }
 

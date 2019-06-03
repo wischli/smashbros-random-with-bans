@@ -1,10 +1,11 @@
 export const color = {
     red: '#ffb3b3',
     green: '#99f9ae',
-    card: '#002f46',
+    card: '#26353c',
     cardTitle: '#aacdde',
     nav: '#466370',
     navSecondaryBtn: '#ddddddb3',
+    cookieNotice: '#26353c',
 };
 
 const themeStyle = {
@@ -15,6 +16,8 @@ const themeStyle = {
     bgNavSecondaryBtn: color.navSecondaryBtn,
     colorCardTitle: color.cardTitle,
     backgroundColor: '#486471',
+    bgCookieNotice: color.cookieNotice,
+    bgContent: '#486471',
     button: {
         height: '50px',
         fontSize: '15px',
@@ -69,12 +72,13 @@ const themeStyle = {
     },
     cardClose: {
         position: 'absolute',
-        top: '-5px',
-        background: '#ff000000',
-        height: '50px',
-        width: '50px',
-        right: '-3px',
-        borderColor: 'transparent'
+        top: '-15px',
+        background: '#bb5555',
+        height: '30px',
+        width: '30px',
+        right: '-15px',
+        borderColor: 'transparent',
+        borderRadius: '100%',
     },
     cardTitle: {
         color: color.cardTitle,

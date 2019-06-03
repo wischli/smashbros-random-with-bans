@@ -1,5 +1,5 @@
-import { initialCharState } from './CharacterList';
-import { Icharacter, Istate, ReducerAction } from './Interfaces';
+import { initialCharState, CharacterList } from './CharacterList';
+import { Icharacter, Istate, ReducerAction, IcookieState } from './Interfaces';
 
 // randomize array
 const randomize = (inputArr: any[]) => {
@@ -25,6 +25,31 @@ const resetPlayed = (inputState: Istate) => {
   return state;
 }
 
+// get characters by their ID
+export const getCharactersByIds = (cookieState: IcookieState): Istate => {
+  const getCharacterById = (id: number, stateKey: keyof Istate): Icharacter => {
+      for (const character of CharacterList) {
+          if (character.id === id) {
+            const charClone = {...character};
+            switch (stateKey) {
+              case 'enabled': return {...character};
+              case 'played': return {...character, played: true};
+              case 'disabled': return {...character, enabled: false};
+              case 'hidden': return {...character, display: false};
+            }
+              return character;
+          }
+      }
+      throw new Error(`Cannot find character with id ${id}`);
+  };
+    return {
+      enabled: cookieState.enabled.map((charId: number) => getCharacterById(charId, 'enabled')),
+      played: cookieState.played.map((charId: number) => getCharacterById(charId, 'played')),
+      disabled: cookieState.disabled.map((charId: number) => getCharacterById(charId, 'disabled')),
+      hidden: cookieState.hidden.map((charId: number) => getCharacterById(charId, 'hidden')),
+    };
+};
+
 // find character in state and return key and index
 const findCharacter = (inputState: Istate, character: Icharacter): { stateKey: keyof Istate, index: number } => {
   let stateKey: keyof Istate = 'disabled';
@@ -44,7 +69,7 @@ const findCharacter = (inputState: Istate, character: Icharacter): { stateKey: k
   return { index, stateKey };
 }
 
-export const myReducer = (inputState: Istate, action: {type: ReducerAction, cookieState?: Istate, character?: Icharacter }): Istate => {
+export const myReducer = (inputState: Istate, action: {type: ReducerAction, cookieState?: IcookieState, character?: Icharacter }): Istate => {
   const state = {...inputState};
   switch (action.type) {
     case ReducerAction.next: {
@@ -113,6 +138,9 @@ export const myReducer = (inputState: Istate, action: {type: ReducerAction, cook
       if (!action.character) {
         throw new Error(`Missing character input for "toggleChar" reducer action`);
       }
+      if (action.character.played) {
+        return state;
+      }
       const { character } = action;
       const { index, stateKey } = findCharacter(state, character);
       character.enabled = !character.enabled;
@@ -127,7 +155,14 @@ export const myReducer = (inputState: Istate, action: {type: ReducerAction, cook
       if (!action.cookieState) {
         throw new Error(`Unable to restore state for missing cookieState`);
       }
-      return action.cookieState;
+      const { enabled, played, disabled, hidden }: IcookieState = action.cookieState;
+      if (
+        enabled.length + played.length + disabled.length + hidden.length ===
+        CharacterList.length
+      ) {
+        return getCharactersByIds(action.cookieState);
+      }
+      return state;
     }
     case ReducerAction.reset: return initialCharState;
     default: throw new Error(`Unhandled myReducer action "${action}"`);

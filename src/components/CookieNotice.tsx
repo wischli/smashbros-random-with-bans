@@ -3,12 +3,11 @@ import Context, { Icontext } from './Context';
 import Cookies from 'universal-cookie';
 
 const CookieNotice = () => {
-  const { themeStyle } = useContext(Context as React.Context<Icontext>);
-  const [showNotice, updateNotice] = useState(true);
-  const cookyInstance = new Cookies();
+  const { themeStyle, cookies } = useContext(Context as React.Context<Icontext>);
+
   const handleCloseClick = () => {
+    const cookyInstance = new Cookies();
     cookyInstance.set('notice', JSON.stringify(true), { path: '/' });
-    return updateNotice(false);
   }
   const styles = {
     cookieNotice: {
@@ -16,7 +15,7 @@ const CookieNotice = () => {
       backgroundColor: themeStyle.bgCookieNotice,
       color: 'white',
       width: '100%',
-      display: showNotice  ? 'block' : 'none',
+      display: cookies.notice ? 'block' : 'none',
       zIndex: 1,
     },
     cookieMessage: {

@@ -2,12 +2,17 @@ The alpha version can be found here: https://wischli.github.io/smashbros-random-
 
 "Unfortunately", I had to **pause my work on this project** as I have to put all my free time in the **planning of my wedding** (August 24h 2019) and honeymoon (road trip through the Canadian Rocky Mountains).
 
-## Guide
+# Guide for usage from scratch
 
 - re-/deactivate characters you do not wish to have in your random set by clicking on them once
-- once your list is finished, save the state by clicking on "save as cookie"
-- click randomize to shuffle your wishlist, the top leftmost character is intended to be your first pick (will be displayed as a tinder-esque React alert component in the future)
-- set "round played" for every round you have completed, removing your last character from the list of possible characters and setting the next one
+- you can **en-/disable echo characters** by clicking "hide/show echoes" in the top left corner
+- once your list is finished, save the state by clicking on **"save"** in the top right corner
+- click **randomize** to shuffle your wishlist, a card component will open and display your current character
+- iterate the list by clicking "prev" or "next"
+
+## Cookie Usage
+
+**Currently, the web app stores two cookies**. The first one is a boolean displaying whether the **cookie notice has been accepted** or not. The second one stores a **possible character list to enable a restore** to that state. In the future, two more cookies of the same manner will be added to enable different list stores.
 
 ## Intention
 I have been playing Smash Bros since the age of 7 and been fascinated by this unique fighting game ever since. About 5 years ago my closest friends and I started to really get into 2on2. We experimented with different modes like best of fives in a random-pick-random-pick-random order.
@@ -20,12 +25,11 @@ Therefore, I built this simple web app to enable a fully **customizable random m
 
 ## Todos
 - [x] Add saving functionality using Cookies
-- [ ] Display next character in React alert component
+- [x] Display next character in card-esque component
 - [ ] Add option for multiple saves (auto-save and banks)
 - [ ] Add "help" and tooltips
 - [ ] Improve UI (especially mobile)
 - [ ] Add more options for customization
-- [ ] Improve UI (especially mobile)
 - [ ] Add auth0 login functionality
 
 ### Misc

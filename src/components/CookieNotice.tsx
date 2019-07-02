@@ -4,10 +4,13 @@ import Cookies from 'universal-cookie';
 
 const CookieNotice = () => {
   const { themeStyle, cookies } = useContext(Context as React.Context<Icontext>);
+  const [hideNotice, setHide] = useState(cookies.notice);
 
   const handleCloseClick = () => {
     const cookyInstance = new Cookies();
     cookyInstance.set('notice', JSON.stringify(true), { path: '/' });
+    console.log(cookies);
+    setHide(true)
   }
   const styles = {
     cookieNotice: {
@@ -19,7 +22,10 @@ const CookieNotice = () => {
       zIndex: 1,
     },
     cookieMessage: {
-      padding: 10, display: 'flex', alignItems: 'center', maxWidth: '100%', justifyContent: window.innerWidth < 800 ? 'center' : 'space-evenly'
+      padding: 10, display: hideNotice ? 'none' : 'flex',
+      alignItems: 'center',
+      maxWidth: '100%',
+      justifyContent: window.innerWidth < 800 ? 'center' : 'space-evenly'
     }
   };
 
@@ -27,9 +33,10 @@ const CookieNotice = () => {
     return (
       <div style={styles.cookieMessage}>
         <div>
-          This website uses cookies to store your current state of characters. For more information, see <a style={{color: '#9eef8b'}} href="https://github.com/wischli/smashbros-random-with-bans">here</a>.
+          This website uses cookies to store your current state of characters. For more information, see
+          <a style={{ color: '#9eef8b' }} href="https://github.com/wischli/smashbros-random-with-bans">here</a>.
         </div>
-        <button type="button" style={{...themeStyle.button, minWidth: 100}} onClick={() => handleCloseClick() }>
+        <button type="button" style={{ ...themeStyle.button, minWidth: 100 }} onClick={() => handleCloseClick()}>
           Accept
         </button>
       </div>
@@ -38,7 +45,7 @@ const CookieNotice = () => {
 
   return (
     <div style={{ ...styles.cookieNotice, position: 'fixed' }}>
-       <CookieMessage />
+      <CookieMessage />
     </div>
   );
 }

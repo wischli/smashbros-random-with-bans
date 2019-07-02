@@ -28,19 +28,19 @@ const themeStyle = {
         borderRadius: '5px',
         textTransform: 'uppercase',
         letterSpacing: '1px',
-        border: '2px solid'
+        border: '2px solid',
     },
     buttonLeft: {
         width: '49%',
         backgroundColor: color.red,
         color: '#383838',
-        borderColor: '#383838'
+        borderColor: '#383838',
     },
     buttonRight: {
         width: '49%',
         backgroundColor: color.green,
         color: 'black',
-        borderColor: 'black'
+        borderColor: 'black',
     },
     card: {
     // flex: '1 1 auto',
@@ -57,18 +57,18 @@ const themeStyle = {
         marginLeft: 'auto',
         marginRight: 'auto',
         zIndex: 1000,
-        padding: 10
+        padding: 10,
     },
     buttonRow: {
         display: 'flex',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
     cardImg: {
         marginLeft: 'auto',
         marginRight: 'auto',
         display: 'block',
         marginBottom: 20,
-        marginTop: 20
+        marginTop: 20,
     },
     cardClose: {
         position: 'absolute',
@@ -84,18 +84,18 @@ const themeStyle = {
         color: color.cardTitle,
         textAlign: 'center',
         margin: 0,
-        fontSize: '1.75rem'
+        fontSize: '1.75rem',
     },
     characterRow: {
         paddingBottom: 10,
         paddingTop: 5,
-        borderBottom: '1px solid white'
+        borderBottom: '1px solid white',
     },
     characterRowTitle: {
         textAlign: 'center',
         textTransform: 'uppercase',
         color: 'white',
-        margin: 5
+        margin: 5,
     },
     nav: {
         width: 'calc(100% - 20px)',
@@ -107,8 +107,8 @@ const themeStyle = {
         position: 'fixed',
         height: 50,
         top: 0,
-        alignItems: 'center'
-    }
+        alignItems: 'center',
+    },
     // buttonStickyLeft: {
     //   width: '49%',
     //   backgroundColor: '#ffb3b3',

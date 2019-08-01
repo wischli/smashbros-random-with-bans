@@ -66,10 +66,12 @@ const findCharacter = (inputState: Istate, character: Icharacter): { stateKey: k
   } else if (character.played) {
     stateKey = 'played';
   }
-  const index: number = inputState[stateKey].indexOf(character);
-  if (index === -1) {
+  // const index: number = inputState[stateKey].indexOf(character);
+  const charFind = inputState[stateKey].find(stateChar => stateChar.id === character.id);
+  if (!charFind) {
     throw new Error(`Unable to find character "${character.name}" in state "${stateKey}"`);
   }
+  const index: number = inputState[stateKey].indexOf(charFind as Icharacter);
   return { index, stateKey };
 };
 
@@ -77,7 +79,7 @@ export const myReducer = (inputState: Istate, action: { type: ReducerAction; coo
   const state = { ...inputState };
   switch (action.type) {
     case ReducerAction.next: {
-      if (state.enabled.length > 2) {
+      if (state.enabled.length > 1) {
         const char: Icharacter = state.enabled.shift() as Icharacter;
         char.played = true;
         state.played.push(char);

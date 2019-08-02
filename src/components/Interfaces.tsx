@@ -4,11 +4,11 @@ export interface Icharacter {
   enabled: boolean;
   played: boolean;
   display: boolean;
-  randomOrder: number;
   echo: number[];
+  // randomOrder: number;
   media: string;
-  moves?: string[];
-  nicknames?: string[];
+  // moves?: string[];
+  // nicknames?: string[];
 }
 
 export interface IcookieState {
@@ -20,10 +20,10 @@ export interface IcookieState {
 }
 
 export interface Istate {
-  enabled: Icharacter[];
-  played: Icharacter[];
-  disabled: Icharacter[];
-  hidden: Icharacter[];
+  enabled: number[];
+  played: number[];
+  disabled: number[];
+  hidden: number[];
 }
 
 export interface Icookies {

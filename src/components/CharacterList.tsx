@@ -938,6 +938,7 @@ const CharacterList: Icharacter[] = [
 ].map((char: Icharacter) => {
   return {...char, media: imigify(char.name)};
 });
-const initialCharState: Istate = { enabled: CharacterList, played: [], disabled: [], hidden: [] };
+// const initialCharState: Istate = { enabled: CharacterList, played: [], disabled: [], hidden: [] };
+const initialCharState: Istate = { enabled: CharacterList.map((char, index) => index), played: [], disabled: [], hidden: [] };
 
 export { CharacterList, initialCharState, imigify };

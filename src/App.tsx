@@ -6,7 +6,7 @@ import CookieNotice from './components/CookieNotice';
 import Context, { Icontext } from './components/Context';
 import MyCard from './components/MyCard';
 import MyBar from './components/MyBar';
-import { Istate, Icharacter, ReducerAction, Icookies, IcookieState } from './components/Interfaces';
+import { Istate, ReducerAction, Icookies, IcookieState } from './components/Interfaces';
 import themeStyle from './components/ThemeStyle';
 import { myReducer } from './components/MyReducer';
 
@@ -33,7 +33,7 @@ const App = () => {
 
   // handlers
   const handleDisplayClick = () => changeDisplay(!displayCard);
-  const handleCharClick = (char: Icharacter) => dispatch({ type: ReducerAction.toggleChar, character: char });
+  const handleCharClick = (charIndex: number, charState: keyof Istate) => dispatch({ charIndex, charState, type: ReducerAction.toggleChar });
   const handleRandomizeClick = () => {
     dispatch({ type: ReducerAction.randomize });
     disableRandomize(true);

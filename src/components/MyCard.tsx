@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Context, { Icontext } from './Context';
-import { imigify } from './CharacterList';
+import { imigify, CharacterList } from './CharacterList';
 import { IcookieState } from './Interfaces';
 
 const MyCard = () => {
@@ -10,7 +10,7 @@ const MyCard = () => {
     const date: string = new Date((cookies.characters as IcookieState).date).toUTCString();
     loadBlock = <p style={{ color: themeStyle.colorCardTitle, textAlign: 'center' }}>from {date}</p>;
   }
-  const character = state.enabled[0];
+  const character = CharacterList[state.enabled[0]];
   return (
     <div className="card" style={{ ...themeStyle.card, display: displayCard || displayLoad ? 'block' : 'none' }}>
       <button type="button" style={{ ...themeStyle.cardClose }} onClick={() => (displayLoad ? disableLoad(false) : handleDisplayClick(displayCard))} className="close" />

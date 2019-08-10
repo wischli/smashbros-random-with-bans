@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Context, { Icontext } from './Context';
-import { Istate, Icharacter } from './Interfaces';
+import { Istate, Icharacter } from '../types/Types';
 import { CharacterList } from './CharacterList';
 
 const getStyle = (charState: keyof Istate, styleKey = ''): React.CSSProperties | undefined => {

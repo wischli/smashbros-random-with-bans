@@ -6,7 +6,8 @@ import CookieNotice from './components/CookieNotice';
 import Context, { Icontext } from './components/Context';
 import MyCard from './components/MyCard';
 import MyBar from './components/MyBar';
-import { Istate, ReducerAction, Icookies, IcookieState } from './components/Interfaces';
+import { Istate, Icookies, IcookieState } from './types/Types';
+import { Action } from './types/Actions';
 import themeStyle from './components/ThemeStyle';
 import { myReducer } from './components/MyReducer';
 
@@ -33,24 +34,24 @@ const App = () => {
 
   // handlers
   const handleDisplayClick = () => changeDisplay(!displayCard);
-  const handleCharClick = (charIndex: number, charState: keyof Istate) => dispatch({ charIndex, charState, type: ReducerAction.toggleChar });
+  const handleCharClick = (charIndex: number, charState: keyof Istate) => dispatch({ charIndex, charState, type: Action.toggleChar });
   const handleRandomizeClick = () => {
-    dispatch({ type: ReducerAction.randomize });
+    dispatch({ type: Action.randomize });
     disableRandomize(true);
     return handleDisplayClick();
   };
   const handleEchoClick = () => {
     setOptions({ ...options, echo: !options.echo });
-    return dispatch({ type: ReducerAction.echo });
+    return dispatch({ type: Action.echo });
   };
   const handleCookieLoad = (cookieState: IcookieState) => {
     disableLoad(false);
-    dispatch({ cookieState, type: ReducerAction.restore });
+    dispatch({ cookieState, type: Action.restore });
     disableRandomize(true);
     return changeDisplay(true);
   };
-  const handleNextClick = () => dispatch({ type: ReducerAction.next });
-  const handlePrevClick = () => dispatch({ type: ReducerAction.previous });
+  const handleNextClick = () => dispatch({ type: Action.next });
+  const handlePrevClick = () => dispatch({ type: Action.previous });
 
   // context
   const myContext: Icontext = {

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Context, { Icontext } from './Context';
 import { imigify, CharacterList } from './CharacterList';
-import { IcookieState } from './Interfaces';
+import { IcookieState } from '../types/Types';
 
 const MyCard = () => {
   const { cookies, state, themeStyle, handleNextClick, handlePrevClick, displayCard, displayLoad, disableLoad, handleDisplayClick, handleCookieLoad } = useContext(Context as React.Context<Icontext>);

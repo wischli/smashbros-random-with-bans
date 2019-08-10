@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Cookies from 'universal-cookie';
 import Context, { Icontext } from './Context';
-import { Istate, IcookieState } from './Interfaces';
+import { Istate, IcookieState } from '../types/Types';
 
 const MyBar = () => {
   const { state, themeStyle, displayCard, handleRandomizeClick, handleDisplayClick, handleEchoClick, displayRandomize, options } = useContext(Context as React.Context<Icontext>);

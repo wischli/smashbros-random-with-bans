@@ -5,10 +5,7 @@ export interface Icharacter {
   played: boolean;
   display: boolean;
   echo: number[];
-  // randomOrder: number;
   media: string;
-  // moves?: string[];
-  // nicknames?: string[];
 }
 
 export interface IcookieState {
@@ -29,15 +26,4 @@ export interface Istate {
 export interface Icookies {
   characters: IcookieState | boolean;
   notice: boolean;
-}
-
-export enum ReducerAction {
-  randomize = 'randomize',
-  next = 'next',
-  previous = 'previous',
-  restore = 'restore',
-  echo = 'echo',
-  save = 'save',
-  reset = 'reset',
-  toggleChar = 'toggleChar',
 }

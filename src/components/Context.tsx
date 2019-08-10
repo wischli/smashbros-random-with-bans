@@ -1,5 +1,5 @@
 import React from 'react';
-import { Istate, Icookies } from './Interfaces';
+import { Istate, Icookies } from '../types/Types';
 
 export interface Icontext {
   cookies: Icookies;

@@ -1,5 +1,6 @@
 import { initialCharState, CharacterList } from './CharacterList';
-import { Icharacter, Istate, ReducerAction, IcookieState } from './Interfaces';
+import { Icharacter, Istate, IcookieState } from '../types/Types';
+import { Action } from '../types/Actions';
 
 // randomize array
 const randomize = (inputArr: number[]) => {
@@ -26,10 +27,10 @@ const resetPlayed = (inputState: Istate) => {
   return state;
 };
 
-export const myReducer = (inputState: Istate, action: { type: ReducerAction; cookieState?: IcookieState; charIndex?: number; charState?: keyof Istate }): Istate => {
+export const myReducer = (inputState: Istate, action: { type: Action; cookieState?: IcookieState; charIndex?: number; charState?: keyof Istate }): Istate => {
   const state = { ...inputState };
   switch (action.type) {
-    case ReducerAction.next: {
+    case Action.next: {
       if (state.enabled.length > 1) {
         const char = state.enabled.shift();
         state.played.push(char as number);
@@ -37,14 +38,14 @@ export const myReducer = (inputState: Istate, action: { type: ReducerAction; coo
       }
       return resetPlayed(state);
     }
-    case ReducerAction.previous: {
+    case Action.previous: {
       if (state.played.length > 0) {
         const char = state.played.pop();
         state.enabled.unshift(char as number);
       }
       return state;
     }
-    case ReducerAction.randomize: {
+    case Action.randomize: {
       const { played, disabled, hidden } = state;
       const newState: Istate = state.enabled.reduce(
         (rState: Istate, charIndex: number) => {
@@ -65,7 +66,7 @@ export const myReducer = (inputState: Istate, action: { type: ReducerAction; coo
       newState.enabled = randomize(newState.enabled);
       return newState;
     }
-    case ReducerAction.echo: {
+    case Action.echo: {
       switch (state.hidden.length) {
         case 0: {
           const { played, disabled } = state;
@@ -95,7 +96,7 @@ export const myReducer = (inputState: Istate, action: { type: ReducerAction; coo
         }
       }
     }
-    case ReducerAction.toggleChar: {
+    case Action.toggleChar: {
       if (!action.charIndex) {
         throw new Error(`Missing character index input for "toggleChar" reducer action`);
       }
@@ -114,7 +115,7 @@ export const myReducer = (inputState: Istate, action: { type: ReducerAction; coo
       }
       return state;
     }
-    case ReducerAction.restore: {
+    case Action.restore: {
       if (!action.cookieState) {
         throw new Error(`Unable to restore state for missing cookieState`);
       }
@@ -124,7 +125,7 @@ export const myReducer = (inputState: Istate, action: { type: ReducerAction; coo
       }
       return state;
     }
-    case ReducerAction.reset:
+    case Action.reset:
       return initialCharState;
     default:
       throw new Error(`Unhandled myReducer action "${action}"`);

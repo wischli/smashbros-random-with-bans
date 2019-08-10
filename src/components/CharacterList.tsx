@@ -1,4 +1,4 @@
-import { Icharacter, Istate } from './Interfaces';
+import { Icharacter, Istate } from '../types/Types';
 
 const imageFolder = window.location.href.includes('local') ? `${window.location.href}images/character_icons/` : 'https://wischli.github.io/smashbros-random-with-bans/images/character_icons';
 // const imageFolder = `https://wischli.github.io/smashbros-random-with-bans/images/character_icons`;

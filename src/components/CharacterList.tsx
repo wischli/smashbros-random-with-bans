@@ -1,4 +1,4 @@
-import { Icharacter, Istate } from '../types/Types';
+import { IChar, IState } from '../types/Types';
 
 const imageFolder = window.location.href.includes('local') ? `${window.location.href}images/character_icons/` : 'https://wischli.github.io/smashbros-random-with-bans/images/character_icons';
 // const imageFolder = `https://wischli.github.io/smashbros-random-with-bans/images/character_icons`;
@@ -10,7 +10,7 @@ function imigify(name: string) {
   return `${imageFolder}/${title}.png`;
 }
 
-const CharacterList: Icharacter[] = [
+const CharacterList: IChar[] = [
   {
     id: 1,
     name: 'Mario',
@@ -713,10 +713,10 @@ const CharacterList: Icharacter[] = [
     echo: [],
     display: true,
   },
-].map((char: Icharacter) => {
+].map((char: IChar) => {
   return {...char, media: imigify(char.name)};
 });
-// const initialCharState: Istate = { enabled: CharacterList, played: [], disabled: [], hidden: [] };
-const initialCharState: Istate = { enabled: CharacterList.map((char, index) => index), played: [], disabled: [], hidden: [] };
+// const initialCharState: IState = { enabled: CharacterList, played: [], disabled: [], hidden: [] };
+const initialCharState: IState = { enabled: CharacterList.map((char, index) => index), played: [], disabled: [], hidden: [] };
 
 export { CharacterList, initialCharState, imigify };

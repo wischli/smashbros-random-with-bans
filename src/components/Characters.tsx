@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import Context, { Icontext } from './Context';
-import { Istate, Icharacter } from '../types/Types';
+import { IState, IChar } from '../types/Types';
 import { CharacterList } from './CharacterList';
 
-const getStyle = (charState: keyof Istate, styleKey = ''): React.CSSProperties | undefined => {
+const getStyle = (charState: keyof IState, styleKey = ''): React.CSSProperties | undefined => {
   let imageColor = '';
   let opacity = 1;
   if (charState === 'played') {
@@ -58,10 +58,10 @@ const getStyle = (charState: keyof Istate, styleKey = ''): React.CSSProperties |
   return styleKey in style ? style[styleKey] : undefined;
 };
 
-export const Character = (props: { character: Icharacter; stateKey: keyof Istate; charIndex: number }) => {
+export const Character = (props: { character: IChar; stateKey: keyof IState; charIndex: number }) => {
   const { character, charIndex, stateKey } = props;
   const { handleCharClick } = useContext(Context as React.Context<Icontext>);
-  const getClassName = (played: boolean, enabled: boolean): keyof Omit<Istate, 'hidden'> => {
+  const getClassName = (played: boolean, enabled: boolean): keyof Omit<IState, 'hidden'> => {
     if (played) {
       return 'played';
     }
@@ -83,7 +83,7 @@ export const Character = (props: { character: Icharacter; stateKey: keyof Istate
 };
 
 const Characters = () => {
-  const { state, themeStyle }: { state: Istate; themeStyle: any } = useContext(Context as React.Context<Icontext>);
+  const { state, themeStyle }: { state: IState; themeStyle: any } = useContext(Context as React.Context<Icontext>);
   return (
     <div className="characters" style={{ backgroundColor: themeStyle.backgroundColor }}>
       {Object.keys(state).map((key: string) => {
@@ -91,10 +91,10 @@ const Characters = () => {
         return (
           <div key={`${key}-wrapper`} style={themeStyle.characterRow}>
             <h2 style={themeStyle.characterRowTitle}>{key}</h2>
-            <div className={className} style={{ ...getStyle(key as keyof Istate, 'characters') }} key={key}>
-              {state[key as keyof Istate].map((charIndex: number) => {
-                const character: Icharacter = CharacterList[charIndex];
-                return <Character key={character.id} character={character} stateKey={key as keyof Istate} charIndex={charIndex} />;
+            <div className={className} style={{ ...getStyle(key as keyof IState, 'characters') }} key={key}>
+              {state[key as keyof IState].map((charIndex: number) => {
+                const character: IChar = CharacterList[charIndex];
+                return <Character key={character.id} character={character} stateKey={key as keyof IState} charIndex={charIndex} />;
               })}
             </div>
           </div>

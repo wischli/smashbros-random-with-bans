@@ -1,4 +1,4 @@
-export interface Icharacter {
+export interface IChar {
   id: number;
   name: string;
   enabled: boolean;
@@ -8,7 +8,7 @@ export interface Icharacter {
   media: string;
 }
 
-export interface IcookieState {
+export interface ICState {
   enabled: number[];
   played: number[];
   disabled: number[];
@@ -16,14 +16,14 @@ export interface IcookieState {
   date: string;
 }
 
-export interface Istate {
+export interface IState {
   enabled: number[];
   played: number[];
   disabled: number[];
   hidden: number[];
 }
 
-export interface Icookies {
-  characters: IcookieState | boolean;
+export interface ICookies {
+  characters: ICState | boolean;
   notice: boolean;
 }

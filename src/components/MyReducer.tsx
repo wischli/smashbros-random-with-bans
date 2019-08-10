@@ -1,5 +1,5 @@
 import { initialCharState, CharacterList } from './CharacterList';
-import { Icharacter, Istate, IcookieState } from '../types/Types';
+import { IChar, IState, ICState } from '../types/Types';
 import { Action } from '../types/Actions';
 
 // randomize array
@@ -16,7 +16,7 @@ const randomize = (inputArr: number[]) => {
 };
 
 // reset played characters and shuffle
-const resetPlayed = (inputState: Istate) => {
+const resetPlayed = (inputState: IState) => {
   const state = { ...inputState };
   state.enabled = randomize(
     state.played.map((charIndex: number) => {
@@ -27,7 +27,7 @@ const resetPlayed = (inputState: Istate) => {
   return state;
 };
 
-export const myReducer = (inputState: Istate, action: { type: Action; cookieState?: IcookieState; charIndex?: number; charState?: keyof Istate }): Istate => {
+export const myReducer = (inputState: IState, action: { type: Action; cookieState?: ICState; charIndex?: number; charState?: keyof IState }): IState => {
   const state = { ...inputState };
   switch (action.type) {
     case Action.next: {
@@ -47,9 +47,9 @@ export const myReducer = (inputState: Istate, action: { type: Action; cookieStat
     }
     case Action.randomize: {
       const { played, disabled, hidden } = state;
-      const newState: Istate = state.enabled.reduce(
-        (rState: Istate, charIndex: number) => {
-          const char: Icharacter = CharacterList[charIndex];
+      const newState: IState = state.enabled.reduce(
+        (rState: IState, charIndex: number) => {
+          const char: IChar = CharacterList[charIndex];
           if (!char.enabled) {
             rState.disabled.push(charIndex);
           } else if (!char.display) {
@@ -71,7 +71,7 @@ export const myReducer = (inputState: Istate, action: { type: Action; cookieStat
         case 0: {
           const { played, disabled } = state;
           return state.enabled.reduce(
-            (rState: Istate, charIndex: number) => {
+            (rState: IState, charIndex: number) => {
               const char = CharacterList[charIndex];
               if (char.echo.length && char.echo[0] % 1 === 0) {
                 rState.hidden.push(charIndex);
@@ -87,7 +87,7 @@ export const myReducer = (inputState: Istate, action: { type: Action; cookieStat
           const { enabled, played, disabled } = state;
           // TODO: enable played, enabled copy from echo char
           return state.hidden.reduce(
-            (rState: Istate, charIndex: number) => {
+            (rState: IState, charIndex: number) => {
               rState.enabled.push(charIndex);
               return rState;
             },
@@ -108,7 +108,7 @@ export const myReducer = (inputState: Istate, action: { type: Action; cookieStat
         return state;
       }
       if (charState !== 'hidden') {
-        const targetKey: keyof Istate = charState === 'disabled' ? 'enabled' : 'disabled';
+        const targetKey: keyof IState = charState === 'disabled' ? 'enabled' : 'disabled';
         const index = state[charState].indexOf(charIndex);
         state[charState].splice(index, 1);
         state[targetKey].push(charIndex);
@@ -119,7 +119,7 @@ export const myReducer = (inputState: Istate, action: { type: Action; cookieStat
       if (!action.cookieState) {
         throw new Error(`Unable to restore state for missing cookieState`);
       }
-      const { enabled, played, disabled, hidden }: IcookieState = action.cookieState;
+      const { enabled, played, disabled, hidden }: ICState = action.cookieState;
       if (enabled.length + played.length + disabled.length + hidden.length === CharacterList.length) {
         return { enabled, played, disabled, hidden };
       }

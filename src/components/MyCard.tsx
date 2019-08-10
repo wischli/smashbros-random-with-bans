@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import Context, { Icontext } from './Context';
 import { imigify, CharacterList } from './CharacterList';
-import { IcookieState } from '../types/Types';
+import { ICState } from '../types/Types';
 
 const MyCard = () => {
   const { cookies, state, themeStyle, handleNextClick, handlePrevClick, displayCard, displayLoad, disableLoad, handleDisplayClick, handleCookieLoad } = useContext(Context as React.Context<Icontext>);
   let loadBlock = <div></div>;
   if (cookies.characters) {
-    const date: string = new Date((cookies.characters as IcookieState).date).toUTCString();
+    const date: string = new Date((cookies.characters as ICState).date).toUTCString();
     loadBlock = <p style={{ color: themeStyle.colorCardTitle, textAlign: 'center' }}>from {date}</p>;
   }
   const character = CharacterList[state.enabled[0]];
@@ -20,7 +20,7 @@ const MyCard = () => {
         <button type="button" style={{ ...themeStyle.button, ...themeStyle.buttonLeft }} onClick={() => (displayLoad ? disableLoad(false) : handlePrevClick())}>
           {displayLoad ? 'Dismiss' : 'Prev'}
         </button>
-        <button type="button" style={{ ...themeStyle.button, ...themeStyle.buttonRight }} onClick={() => (displayLoad ? handleCookieLoad(cookies.characters as IcookieState) : handleNextClick())}>
+        <button type="button" style={{ ...themeStyle.button, ...themeStyle.buttonRight }} onClick={() => (displayLoad ? handleCookieLoad(cookies.characters as ICState) : handleNextClick())}>
           {displayLoad ? 'Load' : 'Next'}
         </button>
       </div>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Istate, Icookies } from '../types/Types';
+import { IState, ICookies } from '../types/Types';
 
 export interface Icontext {
-  cookies: Icookies;
-  state: Istate;
+  cookies: ICookies;
+  state: IState;
   handleCharClick: Function;
   themeStyle: any;
   handleEchoClick: Function;

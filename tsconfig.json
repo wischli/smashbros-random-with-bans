@@ -22,6 +22,8 @@
   },
   "include": [
     "src/*",
-    "src/*/*"
+    "src/*/*",
+    "src/components/*/*.tsx",
+    "src/components/*/*/*.tsx"
   ]
 }

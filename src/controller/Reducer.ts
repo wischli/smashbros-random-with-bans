@@ -1,33 +1,10 @@
-import { initialCharState, CharacterList } from './CharacterList';
 import { IChar, IState, ICState } from '../types/Types';
 import { Action } from '../types/Actions';
+import { charArray, initialCharState } from '../model/charArray/charArray';
+import { resetPlayed } from './Reducer-utils';
+import { randomize } from '../utils';
 
-// randomize array
-const randomize = (inputArr: number[]) => {
-  const arr = [...inputArr];
-  let currentIndex: number = arr.length;
-  let randomIndex = 0;
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    [arr[randomIndex], arr[currentIndex]] = [arr[currentIndex], arr[randomIndex]];
-  }
-  return arr;
-};
-
-// reset played characters and shuffle
-const resetPlayed = (inputState: IState) => {
-  const state = { ...inputState };
-  state.enabled = randomize(
-    state.played.map((charIndex: number) => {
-      return charIndex;
-    }),
-  );
-  state.played = [];
-  return state;
-};
-
-export const myReducer = (inputState: IState, action: { type: Action; cookieState?: ICState; charIndex?: number; charState?: keyof IState }): IState => {
+export const Reducer = (inputState: IState, action: { type: Action; cookieState?: ICState; charIndex?: number; charState?: keyof IState }): IState => {
   const state = { ...inputState };
   switch (action.type) {
     case Action.next: {
@@ -49,7 +26,7 @@ export const myReducer = (inputState: IState, action: { type: Action; cookieStat
       const { played, disabled, hidden } = state;
       const newState: IState = state.enabled.reduce(
         (rState: IState, charIndex: number) => {
-          const char: IChar = CharacterList[charIndex];
+          const char: IChar = charArray[charIndex];
           if (!char.enabled) {
             rState.disabled.push(charIndex);
           } else if (!char.display) {
@@ -72,7 +49,7 @@ export const myReducer = (inputState: IState, action: { type: Action; cookieStat
           const { played, disabled } = state;
           return state.enabled.reduce(
             (rState: IState, charIndex: number) => {
-              const char = CharacterList[charIndex];
+              const char = charArray[charIndex];
               if (char.echo.length && char.echo[0] % 1 === 0) {
                 rState.hidden.push(charIndex);
               } else {
@@ -120,7 +97,7 @@ export const myReducer = (inputState: IState, action: { type: Action; cookieStat
         throw new Error(`Unable to restore state for missing cookieState`);
       }
       const { enabled, played, disabled, hidden }: ICState = action.cookieState;
-      if (enabled.length + played.length + disabled.length + hidden.length === CharacterList.length) {
+      if (enabled.length + played.length + disabled.length + hidden.length === charArray.length) {
         return { enabled, played, disabled, hidden };
       }
       return state;
@@ -128,6 +105,6 @@ export const myReducer = (inputState: IState, action: { type: Action; cookieStat
     case Action.reset:
       return initialCharState;
     default:
-      throw new Error(`Unhandled myReducer action "${action}"`);
+      throw new Error(`Unhandled Reducer action "${action}"`);
   }
 };

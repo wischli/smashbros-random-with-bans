@@ -8,19 +8,15 @@ export interface IChar {
   media: string;
 }
 
-export interface ICState {
-  enabled: number[];
-  played: number[];
-  disabled: number[];
-  hidden: number[];
-  date: string;
-}
-
 export interface IState {
   enabled: number[];
   played: number[];
   disabled: number[];
   hidden: number[];
+}
+
+export interface ICState extends IState {
+  date: string;
 }
 
 export interface ICookies {

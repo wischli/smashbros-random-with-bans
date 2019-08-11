@@ -13,7 +13,6 @@ code {
     monospace;
 }
 
-
 .close {
   opacity: 1;
 }
@@ -46,24 +45,3 @@ code {
 .close:after {
   transform: rotate(-45deg);
 }
-
-/* .characters.enabled > .character {
-  background-color: white;
-}
-.characters.enabled > .character > img {
-  opacity: 1;
-}
-
-.characters.played > .character {
-  background-color: #00cc51;
-}
-.characters.played > .character > img,
-.characters.disabled > .character > img,
-.characters.hidden > .character > img {
-  opacity: 0.6;
-}
-
-.characters.disabled > .character,
-.characters.hidden > .character {
-  background-color: #ff0000b8;
-} */

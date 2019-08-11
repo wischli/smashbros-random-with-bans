@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 
 import { configure, shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { Character } from './Character-view';
@@ -67,7 +66,7 @@ describe('Testing Character Component', () => {
 		} catch (err) {
 			expect(err).toBeUndefined();
 		}
-		expect(toJson(wrapper)).toMatchSnapshot();
+		expect(wrapper).toMatchSnapshot();
 	});
 
 	it('Checks hidden character', () => {

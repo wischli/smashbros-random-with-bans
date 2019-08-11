@@ -50,7 +50,7 @@ const Bar = (props: {
 			<button type="button" style={buttonStyle} onClick={() => handleEchoClick()}>
 				{options.echo ? 'Hide Echoes' : 'Show Echoes'}
 			</button>
-			<button type="button" style={{ ...themeButtonStyle, width: '100%' }} onClick={() => centerBtn.action()}>
+			<button type="button" style={{ ...themeButtonStyle, width: '100%' }} data-test="centerBtn" onClick={() => centerBtn.action()}>
 				{centerBtn.msg}
 			</button>
 			<button type="button" style={buttonStyle} onClick={() => saveCharacters(state)}>

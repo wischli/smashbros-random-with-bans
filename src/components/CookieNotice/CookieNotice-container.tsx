@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
-import Context, { Icontext } from '../Context';
+import { ICookies } from '../../types/Types';
 import { buttonStyle, messageStyle, noticeStyle } from './CookieNotice-style';
 
-const CookieNotice = () => {
-  const { cookies } = useContext(Context as React.Context<Icontext>);
+const CookieNotice = (props: { cookies: ICookies }) => {
+  const { cookies } = props;
   const [hideNotice, setHide] = useState(cookies.notice);
 
   const handleCloseClick = () => {

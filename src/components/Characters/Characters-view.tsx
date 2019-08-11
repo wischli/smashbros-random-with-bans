@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { charArray } from '../../model/charArray/charArray';
 import { IChar, IState } from '../../types/Types';
-import MyContext, { Icontext } from '../Context';
 import { Character } from './Character/Character-view';
 import { charRowStyle, charRowTitleStyle, charsStyle, wrapperStyle } from './Characters-style';
 
-const Characters = () => {
-  const { state }: { state: IState } = useContext(MyContext as React.Context<Icontext>);
+const Characters = (props: {state: IState, handleCharClick: Function}) => {
+  const { state, handleCharClick } = props;
   return (
     <div style={wrapperStyle}>
       {Object.keys(state).map((key: string) => {
@@ -16,7 +15,7 @@ const Characters = () => {
             <div className={`characters ${key}`} style={ charsStyle } key={key}>
               {state[key as keyof IState].map((charIndex: number) => {
                 const character: IChar = charArray[charIndex];
-                return <Character key={character.id} character={character} stateKey={key as keyof IState} charIndex={charIndex} />;
+                return <Character key={character.id} character={character} stateKey={key as keyof IState} charIndex={charIndex} handleCharClick={handleCharClick} />;
               })}
             </div>
           </div>

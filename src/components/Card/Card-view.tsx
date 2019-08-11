@@ -1,11 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { charArray } from '../../model/charArray/charArray';
-import { ICState } from '../../types/Types';
+import { ICookies, ICState, IState } from '../../types/Types';
 import { imigify } from '../../utils';
-import Context, { Icontext } from '../Context';
 import { btnRowStyle, buttonStyle, cardCookieStyle, cardImgStyle, cardStyle, cardTitleStyle, closeBtnStyle } from './Card-style';
 
-const Card = () => {
+const Card = (props: {
+	cookies: ICookies;
+	state: IState;
+	handleNextClick: Function;
+	handlePrevClick: Function;
+	displayCard: boolean;
+	displayLoad: boolean;
+	disableLoad: Function;
+	handleDisplayClick: Function;
+	handleCookieLoad: Function;
+}) => {
 	const {
 		cookies,
 		state,
@@ -16,7 +25,7 @@ const Card = () => {
 		disableLoad,
 		handleDisplayClick,
 		handleCookieLoad
-	} = useContext(Context as React.Context<Icontext>);
+	} = props;
 
 	// display message when a character save was found
 	let loadBlock = <div></div>;
@@ -37,11 +46,7 @@ const Card = () => {
 				className="close"
 			/>
 			<h2 style={cardTitleStyle}>{displayLoad ? 'Discovered Save' : character.name}</h2>
-			{displayLoad ? (
-				loadBlock
-			) : (
-				<img src={imigify(character.name)} style={cardImgStyle} alt={character.name} />
-			)}
+			{displayLoad ? loadBlock : <img src={imigify(character.name)} style={cardImgStyle} alt={character.name} />}
 			<div style={btnRowStyle}>
 				<button
 					type="button"

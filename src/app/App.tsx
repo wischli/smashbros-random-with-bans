@@ -3,13 +3,12 @@ import Cookies from 'universal-cookie';
 import Bar from '../components/Bar/Bar-view';
 import Card from '../components/Card/Card-view';
 import Characters from '../components/Characters/Characters-view';
-import Context, { Icontext } from '../components/Context';
 import CookieNotice from '../components/CookieNotice/CookieNotice-container';
 import { Reducer } from '../controller/Reducer';
-import { color } from '../layout/themeStyle';
 import { initialCharState } from '../model/charArray/charArray';
 import { Action } from '../types/Actions';
 import { ICookies, ICState, IState } from '../types/Types';
+import { appStyle } from './App-styling';
 
 const initialOptions = {
 	echo: true
@@ -28,7 +27,7 @@ const App = () => {
 		notice: cookyInstance.get('notice') === undefined
 	};
 
-	// state & reducers
+	// hooks
 	const [state, dispatch]: [IState, Function] = useReducer(Reducer, initialCharState);
 	const [options, setOptions] = useState(initialOptions);
 	const [displayCard, changeDisplay] = useState(false);
@@ -57,45 +56,35 @@ const App = () => {
 	const handleNextClick = () => dispatch({ type: Action.next });
 	const handlePrevClick = () => dispatch({ type: Action.previous });
 
-	// context
-	const myContext: Icontext = {
-		cookies,
-		state,
-		handleCharClick,
-		handleEchoClick,
-		handleCookieLoad,
-		handleNextClick,
-		handlePrevClick,
-		handleDisplayClick,
-		handleRandomizeClick,
-		displayCard,
-		displayLoad,
-		disableLoad,
-		displayRandomize,
-		options
-	};
-
 	// components
 	return (
-		<Context.Provider value={myContext}>
-			<div className="wrapper">
-				<meta name="viewport" content="width=device-width, user-scalable=no" />
-				<div
-					className="content"
-					style={{
-						marginTop: 70,
-						height: '100vh',
-						backgroundColor: color.bgContent,
-						opacity: displayCard || displayLoad ? 0.5 : 1
-					}}
-				>
-					<CookieNotice />
-					<Characters />
-				</div>
-				<Bar />
-				<Card />
+		<div className="wrapper">
+			<meta name="viewport" content="width=device-width, user-scalable=no" />
+			<div className="content" style={appStyle(displayCard || disableLoad)}>
+				<CookieNotice cookies={cookies}/>
+				<Characters state={state} handleCharClick={handleCharClick} />
 			</div>
-		</Context.Provider>
+			<Bar
+				state={state}
+				displayCard={displayCard}
+				handleRandomizeClick={handleRandomizeClick}
+				handleDisplayClick={handleDisplayClick}
+				handleEchoClick={handleEchoClick}
+				displayRandomize={displayRandomize}
+				options={options}
+			/>
+			<Card
+				cookies={cookies}
+				state={state}
+				handleNextClick={handleNextClick}
+				handlePrevClick={handlePrevClick}
+				displayCard={displayCard}
+				displayLoad={displayLoad}
+				disableLoad={disableLoad}
+				handleDisplayClick={handleDisplayClick}
+				handleCookieLoad={handleCookieLoad}
+			/>
+		</div>
 	);
 };
 

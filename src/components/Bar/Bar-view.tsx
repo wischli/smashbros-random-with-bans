@@ -1,10 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { themeButtonStyle } from '../../layout/themeStyle';
 import { saveCharacters } from '../../utils';
-import Context, { Icontext } from '../Context';
 import { buttonStyle, navStyle } from './Bar-style';
+import { IState } from '../../types/Types';
 
-const Bar = () => {
+const Bar = (props: {
+	state: IState,
+	displayCard: boolean,
+	handleRandomizeClick: Function,
+	handleDisplayClick: Function,
+	handleEchoClick: Function,
+	displayRandomize: boolean,
+	options: { echo: boolean },
+}) => {
 	const {
 		state,
 		displayCard,
@@ -13,7 +21,7 @@ const Bar = () => {
 		handleEchoClick,
 		displayRandomize,
 		options
-	} = useContext(Context as React.Context<Icontext>);
+	} = props;
 
 	// set center button message and action
 	let centerBtn: {

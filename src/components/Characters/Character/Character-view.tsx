@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { IChar, IState } from "../../../types/Types";
-import MyContext, { Icontext } from "../../Context";
 import { charStyle, imageStyle } from "./Character-style";
 
-export const Character = (props: { character: IChar; stateKey: keyof IState; charIndex: number }) => {
-    const { character, charIndex, stateKey } = props;
-    const { handleCharClick } = useContext(MyContext as React.Context<Icontext>);
+export const Character = (props: { character: IChar; stateKey: keyof IState; charIndex: number, handleCharClick: Function }) => {
+    const { character, charIndex, stateKey, handleCharClick } = props;
     const getClassName = (played: boolean, enabled: boolean): keyof Omit<IState, 'hidden'> => {
       if (played) {
         return 'played';

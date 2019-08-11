@@ -5,7 +5,7 @@ import Card from '../components/Card/Card-view';
 import Characters from '../components/Characters/Characters-view';
 import CookieNotice from '../components/CookieNotice/CookieNotice-container';
 import { Reducer } from '../controller/Reducer';
-import { initialCharState } from '../model/charArray/charArray';
+import { initialCharState } from '../model/charArr/charArr';
 import { Action } from '../types/Actions';
 import { ICookies, ICState, IState } from '../types/Types';
 import { appStyle } from './App-styling';
@@ -60,7 +60,7 @@ const App = () => {
 	return (
 		<div className="wrapper">
 			<meta name="viewport" content="width=device-width, user-scalable=no" />
-			<div className="content" style={appStyle(displayCard || disableLoad)}>
+			<div className="content" style={appStyle(displayCard || displayLoad)}>
 				<CookieNotice cookies={cookies}/>
 				<Characters state={state} handleCharClick={handleCharClick} />
 			</div>

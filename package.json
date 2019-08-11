@@ -35,8 +35,14 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/enzyme": "^3.10.3",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/puppeteer": "^1.19.0",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.4.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-airbnb-typescript": "^4.0.1",
     "eslint-config-prettier": "^4.3.0",
@@ -49,7 +55,13 @@
     "eslint-plugin-react-hooks": "^1.6.1",
     "gh-pages": "^2.0.1",
     "prettier": "^1.18.2",
+    "puppeteer": "^1.19.0",
     "typescript": "^3.6.0-dev.20190810"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "prettier": {
     "printWidth": 200,

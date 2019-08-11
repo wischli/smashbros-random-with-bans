@@ -1,5 +1,5 @@
 import React from 'react';
-import { charArray } from '../../model/charArray/charArray';
+import { charArr } from '../../model/charArr/charArr';
 import { ICookies, ICState, IState } from '../../types/Types';
 import { imigify } from '../../utils';
 import { btnRowStyle, buttonStyle, cardCookieStyle, cardImgStyle, cardStyle, cardTitleStyle, closeBtnStyle } from './Card-style';
@@ -35,7 +35,7 @@ const Card = (props: {
 	}
 
 	// get current active character
-	const character = charArray[state.enabled[0]];
+	const character = charArr[state.enabled[0]];
 
 	return (
 		<div className="card" style={cardStyle(displayCard || displayLoad)}>

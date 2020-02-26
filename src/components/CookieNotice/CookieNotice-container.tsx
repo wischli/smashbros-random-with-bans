@@ -23,7 +23,7 @@ const CookieNotice = (props: { cookies: ICookies }) => {
           </a>
           .
         </div>
-        <button type="button" style={ buttonStyle } onClick={() => handleCloseClick()}>
+        <button type="button" style={buttonStyle} onClick={() => handleCloseClick()}>
           Accept
         </button>
       </div>

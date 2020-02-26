@@ -1,14 +1,14 @@
-import { IState } from '../types/Types';
-import { randomize } from '../utils';
+import { IState } from '../types/Types'
+import { randomize } from '../utils'
 
 // reset played characters and shuffle
 export const resetPlayed = (inputState: IState) => {
-	const state = { ...inputState };
-	state.enabled = randomize(
-		[...inputState.enabled, ...inputState.played].map((rest, charIndex: number) => {
-			return charIndex;
-		})
-	);
-	state.played = [];
-	return state;
-};
+  const state = { ...inputState }
+  state.enabled = randomize(
+    [...inputState.enabled, ...inputState.played].map((rest, charIndex: number) => {
+      return charIndex
+    }),
+  )
+  state.played = []
+  return state
+}

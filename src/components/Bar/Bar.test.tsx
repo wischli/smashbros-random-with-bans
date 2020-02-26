@@ -29,13 +29,14 @@ const setBtn = ({
 	displayRandomize: boolean;
 	echo?: boolean;
 }) => {
+	const { handleDisplayClick, handleRandomizeClick, handleEchoClick } = context
 	return (
 		<Bar
 			state={state}
 			displayCard={displayCard}
-			handleDisplayClick={context.handleDisplayClick}
-			handleRandomizeClick={context.handleRandomizeClick}
-			handleEchoClick={context.handleEchoClick}
+			handleDisplayClick={handleDisplayClick}
+			handleRandomizeClick={handleRandomizeClick}
+			handleEchoClick={handleEchoClick}
 			displayRandomize={displayRandomize}
 			options={{ echo }}
 		/>

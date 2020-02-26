@@ -1,9 +1,9 @@
 export const characters: {
-  id: number,
-  name: string,
-  echo: number[],
+  id: number
+  name: string
+  echo: number[]
 }[] = [
-    {
+  {
     id: 1,
     name: 'Mario',
     echo: [],
@@ -373,4 +373,4 @@ export const characters: {
     name: 'Piranha Plant',
     echo: [],
   },
-];
+]

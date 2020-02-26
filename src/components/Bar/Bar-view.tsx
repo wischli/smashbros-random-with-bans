@@ -5,13 +5,13 @@ import { buttonStyle, navStyle } from './Bar-style';
 import { IState } from '../../types/Types';
 
 const Bar = (props: {
-	state: IState,
-	displayCard: boolean,
-	handleRandomizeClick: Function,
-	handleDisplayClick: Function,
-	handleEchoClick: Function,
-	displayRandomize: boolean,
-	options: { echo: boolean },
+	state: IState;
+	displayCard: boolean;
+	handleRandomizeClick: Function;
+	handleDisplayClick: Function;
+	handleEchoClick: Function;
+	displayRandomize: boolean;
+	options: { echo: boolean };
 }) => {
 	const {
 		state,

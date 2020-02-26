@@ -16,7 +16,7 @@ const context = {
 };
 let testChar: IChar;
 beforeEach(() => {
-	testChar = charArr[0];
+	[testChar] = charArr;
 });
 
 describe('Testing Character Component', () => {

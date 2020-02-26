@@ -61,7 +61,7 @@ const App = () => {
 		<div className="wrapper">
 			<meta name="viewport" content="width=device-width, user-scalable=no" />
 			<div className="content" style={appStyle(displayCard || displayLoad)}>
-				<CookieNotice cookies={cookies}/>
+				<CookieNotice cookies={cookies} />
 				<Characters state={state} handleCharClick={handleCharClick} />
 			</div>
 			<Bar

@@ -14,7 +14,7 @@ export const color = {
   charHidden: 'grey',
   cardBtnLeft: '#383838',
   cardBtnRight: 'black',
-};
+}
 
 export const themeButtonStyle: React.CSSProperties = {
   height: '50px',
@@ -26,4 +26,4 @@ export const themeButtonStyle: React.CSSProperties = {
   textTransform: 'uppercase',
   letterSpacing: '1px',
   border: '2px solid',
-};
+}

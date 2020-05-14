@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "183ab4c51cdad091cc5effd80768957a",
+    "revision": "ccc29f8aa5e2f6a189b22ce09aa6cb31",
     "url": "/smashbros-random-with-bans/index.html"
   },
   {
-    "revision": "92f424a0bcfa6d903c63",
+    "revision": "35b7a4b0a92c7b6d1869",
     "url": "/smashbros-random-with-bans/static/css/main.da98fc34.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/smashbros-random-with-bans/static/js/2.4d98dbfb.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "92f424a0bcfa6d903c63",
-    "url": "/smashbros-random-with-bans/static/js/main.565617b7.chunk.js"
+    "revision": "35b7a4b0a92c7b6d1869",
+    "url": "/smashbros-random-with-bans/static/js/main.c584c322.chunk.js"
   },
   {
     "revision": "5972cf9144fe01380e73",

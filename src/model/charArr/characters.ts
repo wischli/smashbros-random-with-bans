@@ -373,4 +373,29 @@ export const characters: {
     name: 'Piranha Plant',
     echo: [],
   },
+  {
+    id: 67,
+    name: 'Joker',
+    echo: [],
+  },
+  {
+    id: 68,
+    name: 'Banjo Kazooie',
+    echo: [],
+  },
+  {
+    id: 69,
+    name: 'Hero',
+    echo: [],
+  },
+  {
+    id: 70,
+    name: 'Sans',
+    echo: [],
+  },
+  {
+    id: 71,
+    name: 'Wolf',
+    echo: [],
+  },
 ]

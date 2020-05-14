@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/smashbros-random-with-bans/static/css/main.da98fc34.chunk.css",
-    "main.js": "/smashbros-random-with-bans/static/js/main.f44e45d0.chunk.js",
-    "main.js.map": "/smashbros-random-with-bans/static/js/main.f44e45d0.chunk.js.map",
+    "main.js": "/smashbros-random-with-bans/static/js/main.565617b7.chunk.js",
+    "main.js.map": "/smashbros-random-with-bans/static/js/main.565617b7.chunk.js.map",
     "runtime-main.js": "/smashbros-random-with-bans/static/js/runtime-main.7276d707.js",
     "runtime-main.js.map": "/smashbros-random-with-bans/static/js/runtime-main.7276d707.js.map",
     "static/js/2.4d98dbfb.chunk.js": "/smashbros-random-with-bans/static/js/2.4d98dbfb.chunk.js",
     "static/js/2.4d98dbfb.chunk.js.map": "/smashbros-random-with-bans/static/js/2.4d98dbfb.chunk.js.map",
     "index.html": "/smashbros-random-with-bans/index.html",
-    "precache-manifest.d5a990beed7f879c2fd20026a0ccf139.js": "/smashbros-random-with-bans/precache-manifest.d5a990beed7f879c2fd20026a0ccf139.js",
+    "precache-manifest.78cb012f9a571b0629e542a7ce653192.js": "/smashbros-random-with-bans/precache-manifest.78cb012f9a571b0629e542a7ce653192.js",
     "service-worker.js": "/smashbros-random-with-bans/service-worker.js",
     "static/css/main.da98fc34.chunk.css.map": "/smashbros-random-with-bans/static/css/main.da98fc34.chunk.css.map",
     "static/js/2.4d98dbfb.chunk.js.LICENSE.txt": "/smashbros-random-with-bans/static/js/2.4d98dbfb.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.7276d707.js",
     "static/js/2.4d98dbfb.chunk.js",
     "static/css/main.da98fc34.chunk.css",
-    "static/js/main.f44e45d0.chunk.js"
+    "static/js/main.565617b7.chunk.js"
   ]
 }

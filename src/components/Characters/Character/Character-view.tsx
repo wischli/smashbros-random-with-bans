@@ -1,6 +1,6 @@
-import React from "react";
-import { IChar, IState } from "../../../types/Types";
-import { charStyle, imageStyle } from "./Character-style";
+import React from 'react';
+import { IChar, IState } from '../../../types/Types';
+import { charStyle, imageStyle } from './Character-style';
 
 export const Character = (props: { character: IChar; stateKey: keyof IState; charIndex: number; handleCharClick: Function }) => {
   const { character, charIndex, stateKey, handleCharClick } = props;

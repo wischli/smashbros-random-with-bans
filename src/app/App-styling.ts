@@ -1,4 +1,4 @@
-import { color } from '../layout/themeStyle'
+import { color } from '../layout/themeStyle';
 
 export const appStyle = (display: boolean): React.CSSProperties => {
   return {
@@ -6,5 +6,6 @@ export const appStyle = (display: boolean): React.CSSProperties => {
     height: '100vh',
     backgroundColor: color.bgContent,
     opacity: display ? 0.5 : 1,
-  }
-}
+    touchAction: 'manipulation',
+  };
+};

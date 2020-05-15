@@ -1,4 +1,4 @@
-import { color, themeButtonStyle } from '../../layout/themeStyle'
+import { color, themeButtonStyle } from '../../layout/themeStyle';
 
 export const buttonStyle = (isLeft: boolean): React.CSSProperties => {
   return {
@@ -7,13 +7,13 @@ export const buttonStyle = (isLeft: boolean): React.CSSProperties => {
     color: isLeft ? color.cardBtnLeft : color.cardBtnRight,
     borderColor: isLeft ? color.cardBtnLeft : color.cardBtnRight,
     backgroundColor: isLeft ? color.red : color.green,
-  }
-}
+  };
+};
 
 export const btnRowStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'space-around',
-}
+};
 
 export const closeBtnStyle: React.CSSProperties = {
   position: 'absolute',
@@ -24,7 +24,7 @@ export const closeBtnStyle: React.CSSProperties = {
   right: '-15px',
   borderColor: 'transparent',
   borderRadius: '100%',
-}
+};
 
 export const cardStyle = (display: boolean): React.CSSProperties => {
   return {
@@ -41,15 +41,15 @@ export const cardStyle = (display: boolean): React.CSSProperties => {
     marginRight: 'auto',
     zIndex: 1000,
     padding: 10,
-  }
-}
+  };
+};
 
 export const cardTitleStyle: React.CSSProperties = {
   color: color.cardTitle,
   textAlign: 'center',
   margin: 0,
   fontSize: '1.75rem',
-}
+};
 
 export const cardImgStyle: React.CSSProperties = {
   marginLeft: 'auto',
@@ -57,9 +57,9 @@ export const cardImgStyle: React.CSSProperties = {
   display: 'block',
   marginBottom: 20,
   marginTop: 20,
-}
+};
 
 export const cardCookieStyle: React.CSSProperties = {
   color: color.cardTitle,
   textAlign: 'center',
-}
+};

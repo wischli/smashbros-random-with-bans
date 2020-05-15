@@ -1,7 +1,7 @@
 export const characters: {
-  id: number
-  name: string
-  echo: number[]
+  id: number;
+  name: string;
+  echo: number[];
 }[] = [
   {
     id: 1,
@@ -390,12 +390,7 @@ export const characters: {
   },
   {
     id: 70,
-    name: 'Sans',
-    echo: [],
-  },
-  {
-    id: 71,
     name: 'Wolf',
     echo: [],
   },
-]
+];

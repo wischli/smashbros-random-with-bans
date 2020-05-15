@@ -1,10 +1,10 @@
-import { color, themeButtonStyle } from '../../layout/themeStyle'
+import { color, themeButtonStyle } from '../../layout/themeStyle';
 
 export const buttonStyle: React.CSSProperties = {
   ...themeButtonStyle,
   width: '100%',
   backgroundColor: color.bgNavSecBtn,
-}
+};
 
 export const navStyle: React.CSSProperties = {
   width: 'calc(100% - 20px)',
@@ -17,4 +17,4 @@ export const navStyle: React.CSSProperties = {
   height: 50,
   top: 0,
   alignItems: 'center',
-}
+};

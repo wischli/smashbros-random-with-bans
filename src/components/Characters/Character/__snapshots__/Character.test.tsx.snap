@@ -21,7 +21,7 @@ exports[`Testing Character Component Checks disabled character 1`] = `
   <img
     alt="Mario"
     className="enabled"
-    src="http://localhost/images/character_icons//mario.png"
+    src="http://localhost/public/images/character_icons/mario.png"
     style={
       Object {
         "display": "block",
@@ -56,7 +56,7 @@ exports[`Testing Character Component Checks enabled character 1`] = `
   <img
     alt="Mario"
     className="enabled"
-    src="http://localhost/images/character_icons//mario.png"
+    src="http://localhost/public/images/character_icons/mario.png"
     style={
       Object {
         "display": "block",
@@ -91,7 +91,7 @@ exports[`Testing Character Component Checks hidden character 1`] = `
   <img
     alt="Mario"
     className="enabled"
-    src="http://localhost/images/character_icons//mario.png"
+    src="http://localhost/public/images/character_icons/mario.png"
     style={
       Object {
         "display": "block",
@@ -126,7 +126,7 @@ exports[`Testing Character Component Checks played character 1`] = `
   <img
     alt="Mario"
     className="enabled"
-    src="http://localhost/images/character_icons//mario.png"
+    src="http://localhost/public/images/character_icons/mario.png"
     style={
       Object {
         "display": "block",

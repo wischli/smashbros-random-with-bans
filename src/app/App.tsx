@@ -11,81 +11,77 @@ import { ICookies, ICState, IState } from '../types/Types';
 import { appStyle } from './App-styling';
 
 const initialOptions = {
-	echo: true
+  echo: true,
 };
 
 const App = () => {
-	// cookies
-	const cookyInstance = new Cookies();
-	const cookieCharacters = cookyInstance.get('characters');
-	const cookieCheck: boolean =
-		cookieCharacters !== undefined &&
-		typeof cookieCharacters === 'object' &&
-		Object.keys(cookieCharacters).length > 0;
-	const cookies: ICookies = {
-		characters: cookieCheck ? (cookieCharacters as ICState) : false,
-		notice: cookyInstance.get('notice') === undefined
-	};
+  // cookies
+  const cookyInstance = new Cookies();
+  const cookieCharacters = cookyInstance.get('characters');
+  const cookieCheck: boolean = cookieCharacters !== undefined && typeof cookieCharacters === 'object' && Object.keys(cookieCharacters).length > 0;
+  const cookies: ICookies = {
+    characters: cookieCheck ? (cookieCharacters as ICState) : false,
+    notice: cookyInstance.get('notice') === undefined,
+  };
 
-	// hooks
-	const [state, dispatch]: [IState, Function] = useReducer(Reducer, initialCharState);
-	const [options, setOptions] = useState(initialOptions);
-	const [displayCard, changeDisplay] = useState(false);
-	const [displayLoad, disableLoad] = useState(cookieCheck);
-	const [displayRandomize, disableRandomize] = useState(false);
+  // hooks
+  const [state, dispatch]: [IState, Function] = useReducer(Reducer, initialCharState);
+  const [options, setOptions] = useState(initialOptions);
+  const [displayCard, changeDisplay] = useState(false);
+  const [displayLoad, disableLoad] = useState(cookieCheck);
+  const [displayRandomize, disableRandomize] = useState(false);
 
-	// handlers
-	const handleDisplayClick = () => changeDisplay(!displayCard);
-	const handleCharClick = (charIndex: number, charState: keyof IState) =>
-		dispatch({ charIndex, charState, type: Action.toggleChar });
-	const handleRandomizeClick = () => {
-		dispatch({ type: Action.randomize });
-		disableRandomize(true);
-		return handleDisplayClick();
-	};
-	const handleEchoClick = () => {
-		setOptions({ ...options, echo: !options.echo });
-		return dispatch({ type: Action.echo });
-	};
-	const handleCookieLoad = (cookieState: ICState) => {
-		disableLoad(false);
-		dispatch({ cookieState, type: Action.restore });
-		disableRandomize(true);
-		return changeDisplay(true);
-	};
-	const handleNextClick = () => dispatch({ type: Action.next });
-	const handlePrevClick = () => dispatch({ type: Action.previous });
+  // handlers
+  const handleDisplayClick = () => changeDisplay(!displayCard);
+  const handleCharClick = (charIndex: number, charState: keyof IState) => dispatch({ charIndex, charState, type: Action.toggleChar });
+  const handleRandomizeClick = () => {
+    dispatch({ type: Action.randomize });
+    disableRandomize(true);
+    return handleDisplayClick();
+  };
+  const handleEchoClick = () => {
+    setOptions({ ...options, echo: !options.echo });
+    return dispatch({ type: Action.echo });
+  };
+  const handleCookieLoad = (cookieState: ICState) => {
+    disableLoad(false);
+    dispatch({ cookieState, type: Action.restore });
+    disableRandomize(true);
+    return changeDisplay(true);
+  };
+  const handleNextClick = () => dispatch({ type: Action.next });
+  const handlePrevClick = () => dispatch({ type: Action.previous });
 
-	// components
-	return (
-		<div className="wrapper">
-			<meta name="viewport" content="width=device-width, user-scalable=no" />
-			<div className="content" style={appStyle(displayCard || displayLoad)}>
-				<CookieNotice cookies={cookies} />
-				<Characters state={state} handleCharClick={handleCharClick} />
-			</div>
-			<Bar
-				state={state}
-				displayCard={displayCard}
-				handleRandomizeClick={handleRandomizeClick}
-				handleDisplayClick={handleDisplayClick}
-				handleEchoClick={handleEchoClick}
-				displayRandomize={displayRandomize}
-				options={options}
-			/>
-			<Card
-				cookies={cookies}
-				state={state}
-				handleNextClick={handleNextClick}
-				handlePrevClick={handlePrevClick}
-				displayCard={displayCard}
-				displayLoad={displayLoad}
-				disableLoad={disableLoad}
-				handleDisplayClick={handleDisplayClick}
-				handleCookieLoad={handleCookieLoad}
-			/>
-		</div>
-	);
+  // components
+  return (
+    <div className="wrapper">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 shrink-to-fit=no user-scalable=0" />
+      <div className="content" style={appStyle(displayCard || displayLoad)}>
+        <CookieNotice cookies={cookies} />
+        <Characters state={state} handleCharClick={handleCharClick} />
+      </div>
+      <Bar
+        state={state}
+        displayCard={displayCard}
+        handleRandomizeClick={handleRandomizeClick}
+        handleDisplayClick={handleDisplayClick}
+        handleEchoClick={handleEchoClick}
+        displayRandomize={displayRandomize}
+        options={options}
+      />
+      <Card
+        cookies={cookies}
+        state={state}
+        handleNextClick={handleNextClick}
+        handlePrevClick={handlePrevClick}
+        displayCard={displayCard}
+        displayLoad={displayLoad}
+        disableLoad={disableLoad}
+        handleDisplayClick={handleDisplayClick}
+        handleCookieLoad={handleCookieLoad}
+      />
+    </div>
+  );
 };
 
 export default App;

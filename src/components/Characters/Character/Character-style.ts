@@ -1,11 +1,11 @@
-import { IState } from '../../../types/Types'
+import { IState } from '../../../types/Types';
 
 export const bgColor = {
   enabled: 'white',
   disabled: '#ff6767b8',
   played: '#70f78e',
   hidden: 'grey',
-}
+};
 
 export const charStyle = (charState: keyof IState): React.CSSProperties => {
   return {
@@ -14,8 +14,8 @@ export const charStyle = (charState: keyof IState): React.CSSProperties => {
     backgroundColor: bgColor[charState],
     borderRadius: '100%',
     display: 'block,',
-  }
-}
+  };
+};
 
 export const imageStyle = (charState: keyof IState): React.CSSProperties => {
   return {
@@ -24,5 +24,5 @@ export const imageStyle = (charState: keyof IState): React.CSSProperties => {
     display: 'block',
     maxWidth: window.innerWidth < 1000 ? 55 : 80,
     padding: 1,
-  }
-}
+  };
+};

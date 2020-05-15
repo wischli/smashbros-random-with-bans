@@ -1,4 +1,4 @@
-import { color, themeButtonStyle } from '../../layout/themeStyle'
+import { color, themeButtonStyle } from '../../layout/themeStyle';
 
 export const noticeStyle = (display: boolean): React.CSSProperties => {
   return {
@@ -9,8 +9,8 @@ export const noticeStyle = (display: boolean): React.CSSProperties => {
     display: display ? 'block' : 'none',
     zIndex: 1,
     position: 'fixed',
-  }
-}
+  };
+};
 
 export const messageStyle = (display: boolean): React.CSSProperties => {
   return {
@@ -19,10 +19,10 @@ export const messageStyle = (display: boolean): React.CSSProperties => {
     alignItems: 'center',
     maxWidth: '100%',
     justifyContent: window.innerWidth < 800 ? 'center' : 'space-evenly',
-  }
-}
+  };
+};
 
 export const buttonStyle: React.CSSProperties = {
   ...themeButtonStyle,
   minWidth: 100,
-}
+};

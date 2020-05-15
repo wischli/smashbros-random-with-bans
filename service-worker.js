@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/smashbros-random-with-bans/precache-manifest.220f74ff21ac56e3b943745b0e00b553.js"
+  "/smashbros-random-with-bans/precache-manifest.fef162bbbc5402816e40a8b034e0275b.js"
 );
 
 self.addEventListener('message', (event) => {

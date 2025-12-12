@@ -110,28 +110,42 @@ const App = () => {
     setShowResetDialog(false);
   };
 
+  const [isViewTransitioning, setIsViewTransitioning] = useState(false);
+  const [transitionDirection, setTransitionDirection] = useState<'to-screen' | 'to-grid'>('to-screen');
+
   const handleSelectionScreenToggle = () => {
-    setShowSelectionScreen(!showSelectionScreen);
+    setTransitionDirection(showSelectionScreen ? 'to-grid' : 'to-screen');
+    setIsViewTransitioning(true);
+    setTimeout(() => {
+      setShowSelectionScreen(!showSelectionScreen);
+      setTimeout(() => setIsViewTransitioning(false), 50);
+    }, 300);
   };
+
+  const viewTransitionClass = isViewTransitioning
+    ? `view-exit-${transitionDirection}`
+    : 'view-enter';
 
   return (
     <div className="wrapper">
-      {showSelectionScreen ? (
-        <MainPageSelectionOverlay
-          state={state}
-          handleCharClick={handleCharClick}
-          isRandomized={isRandomized}
-        />
-      ) : (
-        <div className="content" style={appStyle(false)}>
-          <Characters
+      <div className={`view-container ${viewTransitionClass}`}>
+        {showSelectionScreen ? (
+          <MainPageSelectionOverlay
             state={state}
             handleCharClick={handleCharClick}
             isRandomized={isRandomized}
-            currentCharIndex={state.enabled[0]}
           />
-        </div>
-      )}
+        ) : (
+          <div className="content" style={appStyle(false)}>
+            <Characters
+              state={state}
+              handleCharClick={handleCharClick}
+              isRandomized={isRandomized}
+              currentCharIndex={state.enabled[0]}
+            />
+          </div>
+        )}
+      </div>
       {/* Randomized character display - shown below views when randomized */}
       {isRandomized && (
         <RandomizedCharDisplay

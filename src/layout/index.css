@@ -26,6 +26,42 @@ code {
   box-shadow: 0px 0px 0px #000 !important;
 }
 
+/* Character disable animation - flash and fade */
+@keyframes charDisable {
+  0% {
+    filter: brightness(1);
+  }
+  20% {
+    filter: brightness(1.8) saturate(0.3);
+  }
+  40% {
+    filter: brightness(0.6);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+@keyframes overlayFadeIn {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  30% {
+    opacity: 0.8;
+    backdrop-filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(0px);
+  }
+}
+.character.state-changing {
+  animation: charDisable 0.4s ease-out;
+}
+.character.state-changing .char-overlay {
+  animation: overlayFadeIn 0.4s ease-out;
+}
+
 /* Current character highlight pulse animation (matches screen view) */
 @keyframes currentCharPulse {
   0%, 100% { opacity: 1; }
@@ -57,6 +93,128 @@ code {
 .neo-btn:hover {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0px #000 !important;
+}
+
+/* Randomize button animation */
+@keyframes randomizeSpin {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  15% {
+    transform: scale(0.9) rotate(-5deg);
+  }
+  30% {
+    transform: scale(1.05) rotate(3deg);
+  }
+  45% {
+    transform: scale(0.95) rotate(-3deg);
+  }
+  60% {
+    transform: scale(1.08) rotate(2deg);
+  }
+  75% {
+    transform: scale(0.98) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+@keyframes randomizeGlow {
+  0% {
+    box-shadow: 3px 3px 0px #000;
+    background-color: #51cf66;
+  }
+  25% {
+    box-shadow: 0 0 20px #51cf66, 0 0 40px #51cf66, 3px 3px 0px #000;
+    background-color: #69db7c;
+  }
+  50% {
+    box-shadow: 0 0 30px #ffd43b, 0 0 60px #ffd43b, 3px 3px 0px #000;
+    background-color: #ffd43b;
+  }
+  75% {
+    box-shadow: 0 0 20px #51cf66, 0 0 40px #51cf66, 3px 3px 0px #000;
+    background-color: #69db7c;
+  }
+  100% {
+    box-shadow: 3px 3px 0px #000;
+    background-color: #51cf66;
+  }
+}
+@keyframes randomizeText {
+  0%, 100% {
+    letter-spacing: 1px;
+  }
+  25% {
+    letter-spacing: 3px;
+  }
+  50% {
+    letter-spacing: 5px;
+  }
+  75% {
+    letter-spacing: 3px;
+  }
+}
+.neo-btn.randomizing {
+  animation: randomizeSpin 0.6s ease-out, randomizeGlow 0.6s ease-out, randomizeText 0.6s ease-out;
+  pointer-events: none;
+}
+
+/* View transition animations */
+.view-container {
+  width: 100%;
+  min-height: 100%;
+}
+
+@keyframes viewSlideOutLeft {
+  0% {
+    transform: translateX(0) scale(1) rotateY(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateX(-100%) scale(0.8) rotateY(-15deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes viewSlideOutRight {
+  0% {
+    transform: translateX(0) scale(1) rotateY(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateX(100%) scale(0.8) rotateY(15deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes viewSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+.view-exit-to-screen {
+  animation: viewSlideOutLeft 0.3s ease-in forwards;
+}
+
+.view-exit-to-grid {
+  animation: viewSlideOutRight 0.3s ease-in forwards;
+}
+
+.view-enter {
+  animation: viewSlideIn 0.3s ease-out;
 }
 
 /* Grid container responsive padding */

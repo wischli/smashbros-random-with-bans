@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo, useCallback } from 'react';
+import { CSSProperties, useMemo, useCallback, useRef, useEffect, useState } from 'react';
 import { charArr } from '../../model/charArr/charArr';
 import { getCharacterPosition, IMAGE_WIDTH, IMAGE_HEIGHT } from '../../model/charArr/selectionScreenPositions';
 import { IState } from '../../types/Types';
@@ -38,10 +38,44 @@ const MainPageSelectionOverlay = ({
   const currentChar = currentCharIndex !== undefined ? charArr[currentCharIndex] : null;
   const currentPosition = currentChar ? getCharacterPosition(currentChar.id) : null;
 
+  // Track which characters are animating (recently changed state)
+  const [animatingChars, setAnimatingChars] = useState<Set<number>>(new Set());
+  const prevStateRef = useRef<{ disabled: Set<number>; played: Set<number> }>({
+    disabled: new Set(),
+    played: new Set(),
+  });
+
   // Build sets for quick lookup
   const disabledSet = useMemo(() => new Set(state.disabled), [state.disabled]);
   const playedSet = useMemo(() => new Set(state.played), [state.played]);
   const hiddenSet = useMemo(() => new Set(state.hidden), [state.hidden]);
+
+  // Detect state changes and trigger animations
+  useEffect(() => {
+    const changedChars = new Set<number>();
+
+    // Check for newly disabled characters
+    state.disabled.forEach(idx => {
+      if (!prevStateRef.current.disabled.has(idx)) {
+        changedChars.add(idx);
+      }
+    });
+
+    // Check for newly enabled characters (removed from disabled)
+    prevStateRef.current.disabled.forEach(idx => {
+      if (!disabledSet.has(idx)) {
+        changedChars.add(idx);
+      }
+    });
+
+    if (changedChars.size > 0) {
+      setAnimatingChars(changedChars);
+      const timer = setTimeout(() => setAnimatingChars(new Set()), 400);
+      return () => clearTimeout(timer);
+    }
+
+    prevStateRef.current = { disabled: new Set(disabledSet), played: new Set(playedSet) };
+  }, [state.disabled, state.played, disabledSet, playedSet]);
 
   // Get character state for a given index
   const getCharState = useCallback((charIndex: number): keyof IState => {
@@ -148,6 +182,17 @@ const MainPageSelectionOverlay = ({
                   0%, 100% { opacity: 1; }
                   50% { opacity: 0.85; }
                 }
+                @keyframes svgOverlayFadeIn {
+                  0% { opacity: 0; }
+                  30% { opacity: 0.9; }
+                  100% { opacity: 1; }
+                }
+                @keyframes svgFlash {
+                  0% { filter: brightness(1); }
+                  20% { filter: brightness(2) saturate(0.3); }
+                  40% { filter: brightness(0.7); }
+                  100% { filter: brightness(1); }
+                }
                 .highlight-rect {
                   animation: pulse 1.2s ease-in-out infinite;
                 }
@@ -156,6 +201,9 @@ const MainPageSelectionOverlay = ({
                 }
                 .clickable-cell:hover {
                   opacity: 0.3;
+                }
+                .cell-animating {
+                  animation: svgOverlayFadeIn 0.4s ease-out, svgFlash 0.4s ease-out;
                 }
               `}
             </style>
@@ -190,6 +238,7 @@ const MainPageSelectionOverlay = ({
               const charState = getCharState(charIndex);
               const isDisabled = charState === 'disabled';
               const isPlayed = charState === 'played';
+              const isAnimating = animatingChars.has(charIndex);
               return (
                 <rect
                   key={`click-${charIndex}`}
@@ -200,7 +249,7 @@ const MainPageSelectionOverlay = ({
                   fill={isDisabled ? COLORS.disabled : isPlayed ? COLORS.played : 'transparent'}
                   stroke={COLORS.border}
                   strokeWidth="1"
-                  className="clickable-cell"
+                  className={`clickable-cell ${isAnimating ? 'cell-animating' : ''}`}
                   onClick={() => handleCharClick(charIndex, charState)}
                 />
               );

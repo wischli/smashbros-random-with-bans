@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { themeButtonStyle } from '../../layout/themeStyle';
 import { buttonStyle, navStyle } from './Bar-style';
 import { IState } from '../../types/Types';
@@ -22,6 +23,15 @@ const Bar = ({
   options,
   showSelectionScreen,
 }: BarProps) => {
+  const [isRandomizing, setIsRandomizing] = useState(false);
+
+  const onRandomizeClick = () => {
+    setIsRandomizing(true);
+    setTimeout(() => {
+      handleRandomizeClick();
+      setIsRandomizing(false);
+    }, 600);
+  };
   // Disable echo toggle once randomization has started
   const echoButtonDisabled = isRandomized;
 
@@ -67,16 +77,16 @@ const Bar = ({
       </button>
       <button
         type="button"
-        className="neo-btn"
+        className={`neo-btn ${isRandomizing ? 'randomizing' : ''}`}
         style={{
           ...themeButtonStyle,
           width: '100%',
           opacity: isRandomized ? 0.5 : 1,
-          cursor: isRandomized ? 'not-allowed' : 'pointer',
+          cursor: isRandomized || isRandomizing ? 'not-allowed' : 'pointer',
         }}
         data-testid="centerBtn"
-        onClick={isRandomized ? undefined : handleRandomizeClick}
-        disabled={isRandomized}
+        onClick={isRandomized || isRandomizing ? undefined : onRandomizeClick}
+        disabled={isRandomized || isRandomizing}
       >
         Randomize
       </button>

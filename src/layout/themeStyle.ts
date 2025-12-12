@@ -1,29 +1,43 @@
 export const color = {
-  background: '#486471',
-  bgContent: '#486471',
-  red: '#ffb3b3',
-  green: '#99f9ae',
-  card: '#26353c',
-  cardTitle: '#aacdde',
-  nav: '#466370',
-  bgNavSecBtn: '#ddddddb3',
-  bgCookieNotice: '#26353c',
-  charEnabled: 'white',
-  charDisabled: '#ff6767b8',
-  charPlayed: '#70f78e',
-  charHidden: 'grey',
-  cardBtnLeft: '#383838',
-  cardBtnRight: 'black',
+  // Backgrounds
+  background: '#1a1a2e',
+  bgContent: '#1a1a2e',
+  nav: '#000000',
+
+  // State colors (bold neo-brutalism)
+  charEnabled: '#ffffff',
+  charDisabled: '#ff6b6b',
+  charPlayed: '#51cf66',
+  charHidden: '#6c757d',
+
+  // Legacy (kept for compatibility)
+  red: '#ff6b6b',
+  green: '#51cf66',
+  card: '#1a1a2e',
+  cardTitle: '#ffffff',
+  bgNavSecBtn: '#ffffff',
+  bgCookieNotice: '#1a1a2e',
+  cardBtnLeft: '#ff6b6b',
+  cardBtnRight: '#51cf66',
+
+  // Neo-brutalism
+  border: '#000000',
+  textLight: '#ffffff',
+  textDark: '#000000',
 }
 
 export const themeButtonStyle: React.CSSProperties = {
-  height: '50px',
-  fontSize: '15px',
+  height: '45px',
+  fontSize: '14px',
   fontWeight: 700,
   textAlign: 'center',
   justifyContent: 'center',
-  borderRadius: '5px',
   textTransform: 'uppercase',
   letterSpacing: '1px',
-  border: '2px solid',
+  border: '3px solid #000',
+  boxShadow: '3px 3px 0px #000',
+  backgroundColor: '#ffffff',
+  color: '#000000',
+  cursor: 'pointer',
+  fontFamily: "'Space Mono', monospace",
 }

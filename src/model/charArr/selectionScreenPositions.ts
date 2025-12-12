@@ -82,7 +82,6 @@ const characterGridPositions: Record<number, { row: number; col: number }> = {
   55: { row: 3, col: 10 },    // Pac-Man
   56: { row: 3, col: 11 },    // Robin
   57: { row: 3, col: 12 },    // Shulk
-  51: { row: 3, col: 9 },     // Mii Fighter Brawler (shares Palutena position - hidden in normal view)
 
   // Row 4: Bowser Jr, Duck Hunt, Ryu, Cloud, Corrin, Bayonetta, Inkling, Ridley, Simon, K Rool, Isabelle, Incineroar, Piranha Plant
   47: { row: 4, col: 0 },     // Bowser Jr.
@@ -114,8 +113,9 @@ const characterGridPositions: Record<number, { row: number; col: number }> = {
   // col 11 is Mii/CPU slot, col 12 is Random - not mapped
 };
 
-// Mii fighters share the same position (amalgamated as one)
-const MII_POSITION = { row: 3, col: 9 };
+// Mii fighters share the Mii slot position (row 5, col 11)
+const MII_POSITION = { row: 5, col: 11 };
+characterGridPositions[51] = MII_POSITION; // Mii Fighter Brawler
 characterGridPositions[52] = MII_POSITION; // Mii Fighter Sword
 characterGridPositions[53] = MII_POSITION; // Mii Fighter Shooter
 

@@ -1,28 +1,36 @@
 import { color } from '../../layout/themeStyle'
 
 export const charsStyle: React.CSSProperties = {
-  backgroundColor: '#486471',
-  padding: window.innerWidth < 1000 ? 5 : 30,
+  backgroundColor: color.background,
+  padding: window.innerWidth < 1000 ? 0 : 20,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexFlow: 'row wrap',
-  alignContent: 'flex-end',
 }
 
 export const charRowStyle: React.CSSProperties = {
-  paddingBottom: 10,
-  paddingTop: 5,
-  borderBottom: '1px solid white',
+  paddingBottom: 20,
+  paddingTop: 10,
 }
 
 export const charRowTitleStyle: React.CSSProperties = {
   textAlign: 'center',
   textTransform: 'uppercase',
-  color: 'white',
-  margin: 5,
+  color: color.textLight,
+  margin: 0,
+  marginBottom: 15,
+  padding: '12px 20px',
+  fontWeight: 700,
+  fontSize: '16px',
+  letterSpacing: '2px',
+  fontFamily: "'Space Mono', monospace",
+  background: color.nav,
+  border: '3px solid #fff',
+  boxShadow: '4px 4px 0px #fff',
 }
 
 export const wrapperStyle: React.CSSProperties = {
   backgroundColor: color.background,
+  minHeight: '100vh',
 }

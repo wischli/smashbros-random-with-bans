@@ -1,28 +1,34 @@
 import { IState } from '../../../types/Types'
+import { color } from '../../../layout/themeStyle'
 
 export const bgColor = {
-  enabled: 'white',
-  disabled: '#ff6767b8',
-  played: '#70f78e',
-  hidden: 'grey',
+  enabled: color.charEnabled,
+  disabled: color.charDisabled,
+  played: color.charPlayed,
+  hidden: color.charHidden,
 }
 
 export const charStyle = (charState: keyof IState): React.CSSProperties => {
+  const size = window.innerWidth < 1000 ? 55 : 75;
   return {
-    maxWidth: window.innerWidth < 1000 ? 60 : 85,
-    maxHeight: window.innerWidth < 1000 ? 60 : 85,
+    width: size,
+    height: size,
     backgroundColor: bgColor[charState],
-    borderRadius: '100%',
-    display: 'block,',
+    border: '3px solid #000',
+    boxShadow: '4px 4px 0px #000',
+    display: 'block',
+    cursor: 'pointer',
+    overflow: 'hidden',
   }
 }
 
 export const imageStyle = (charState: keyof IState): React.CSSProperties => {
+  const size = window.innerWidth < 1000 ? 55 : 75;
   return {
     opacity: charState === 'enabled' ? 1 : 0.6,
-    margin: 'auto',
     display: 'block',
-    maxWidth: window.innerWidth < 1000 ? 55 : 80,
-    padding: 1,
+    width: size,
+    height: size,
+    objectFit: 'cover',
   }
 }

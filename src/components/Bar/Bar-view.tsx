@@ -45,20 +45,34 @@ const Bar = ({
     };
   }
 
+  // Disable echo toggle once randomization has started
+  const echoButtonDisabled = displayRandomize;
+
   return (
     <div className="nav" style={navStyle}>
-      <button type="button" style={buttonStyle} onClick={handleEchoClick}>
+      <button
+        type="button"
+        className="neo-btn"
+        style={{
+          ...buttonStyle,
+          opacity: echoButtonDisabled ? 0.5 : 1,
+          cursor: echoButtonDisabled ? 'not-allowed' : 'pointer',
+        }}
+        onClick={echoButtonDisabled ? undefined : handleEchoClick}
+        disabled={echoButtonDisabled}
+      >
         {options.echo ? 'Hide Echoes' : 'Show Echoes'}
       </button>
       <button
         type="button"
+        className="neo-btn"
         style={{ ...themeButtonStyle, width: '100%' }}
         data-testid="centerBtn"
         onClick={centerBtn.action}
       >
         {centerBtn.msg}
       </button>
-      <button type="button" style={buttonStyle} onClick={handleResetClick}>
+      <button type="button" className="neo-btn" style={buttonStyle} onClick={handleResetClick}>
         Reset
       </button>
     </div>

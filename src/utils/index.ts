@@ -1,6 +1,8 @@
 import { IState, ISavedState } from '../types/Types';
 
 const STORAGE_KEY = 'smash-random-state';
+const VIEW_KEY = 'smash-random-view';
+const RANDOMIZED_KEY = 'smash-random-randomized';
 
 // Set image location based on character name
 export const imigify = (name: string): string => {
@@ -66,6 +68,48 @@ export const clearState = (): void => {
 // Check if there is a saved state
 export const hasSavedState = (): boolean => {
   return localStorage.getItem(STORAGE_KEY) !== null;
+};
+
+// Save view preference (grid vs screen)
+export const saveViewPreference = (showSelectionScreen: boolean): void => {
+  try {
+    localStorage.setItem(VIEW_KEY, JSON.stringify(showSelectionScreen));
+  } catch (error) {
+    console.error('Failed to save view preference:', error);
+  }
+};
+
+// Load view preference
+export const loadViewPreference = (): boolean | null => {
+  try {
+    const saved = localStorage.getItem(VIEW_KEY);
+    if (saved === null) return null;
+    return JSON.parse(saved) as boolean;
+  } catch (error) {
+    console.error('Failed to load view preference:', error);
+    return null;
+  }
+};
+
+// Save randomized state
+export const saveRandomizedState = (isRandomized: boolean): void => {
+  try {
+    localStorage.setItem(RANDOMIZED_KEY, JSON.stringify(isRandomized));
+  } catch (error) {
+    console.error('Failed to save randomized state:', error);
+  }
+};
+
+// Load randomized state
+export const loadRandomizedState = (): boolean | null => {
+  try {
+    const saved = localStorage.getItem(RANDOMIZED_KEY);
+    if (saved === null) return null;
+    return JSON.parse(saved) as boolean;
+  } catch (error) {
+    console.error('Failed to load randomized state:', error);
+    return null;
+  }
 };
 
 // Randomize array using Fisher-Yates shuffle

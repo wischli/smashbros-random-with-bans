@@ -180,3 +180,30 @@ export const GRID_CONFIG = {
   cols: COLS,
   rows: 6,
 };
+
+// Echo fighter IDs - these share grid positions with base fighters
+const ECHO_FIGHTER_IDS = new Set([3.5, 13.5, 15.5, 17.5, 18.5, 60.5, 66.6]);
+
+// Build a 6x13 grid mapping (row, col) -> character ID
+// Returns null for empty cells (Random slot at row 5, col 12)
+// For Mii slot (row 5, col 11), returns first Mii fighter ID (51)
+export const getGridLayout = (): (number | null)[][] => {
+  const grid: (number | null)[][] = Array.from({ length: 6 }, () =>
+    Array.from({ length: 13 }, () => null)
+  );
+
+  // Fill grid with character IDs based on their positions
+  for (const [idStr, pos] of Object.entries(characterGridPositions)) {
+    const id = parseFloat(idStr);
+    // Skip echo fighters (they share positions with base fighters)
+    if (ECHO_FIGHTER_IDS.has(id)) continue;
+    // For Mii slot, only use first Mii (51), skip 52 and 53
+    if (id === 52 || id === 53) continue;
+
+    if (grid[pos.row][pos.col] === null) {
+      grid[pos.row][pos.col] = id;
+    }
+  }
+
+  return grid;
+};

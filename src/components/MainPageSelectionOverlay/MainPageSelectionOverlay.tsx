@@ -2,14 +2,11 @@ import { CSSProperties, useMemo, useCallback } from 'react';
 import { charArr } from '../../model/charArr/charArr';
 import { getCharacterPosition, IMAGE_WIDTH, IMAGE_HEIGHT } from '../../model/charArr/selectionScreenPositions';
 import { IState } from '../../types/Types';
-import { imigify } from '../../utils';
 
 interface MainPageSelectionOverlayProps {
   state: IState;
   handleCharClick: (charIndex: number, charState: keyof IState) => void;
   isRandomized: boolean;
-  handleNextClick?: () => void;
-  handlePrevClick?: () => void;
 }
 
 // Colors - swapped: disabled/hidden = red, played = grey
@@ -35,8 +32,6 @@ const MainPageSelectionOverlay = ({
   state,
   handleCharClick,
   isRandomized,
-  handleNextClick,
-  handlePrevClick,
 }: MainPageSelectionOverlayProps) => {
   // Get the current character (first enabled)
   const currentCharIndex = state.enabled[0];
@@ -68,37 +63,6 @@ const MainPageSelectionOverlay = ({
       .filter((item): item is NonNullable<typeof item> => item !== null);
   }, [hiddenSet]);
 
-  // Get left and right neighbors based on grid position (for randomized mode)
-  const { leftChar, rightChar } = useMemo(() => {
-    if (!currentPosition) return { leftChar: null, rightChar: null };
-
-    const { row, col } = currentPosition;
-
-    let leftCharResult = null;
-    if (col > 0) {
-      for (const char of charArr) {
-        const pos = getCharacterPosition(char.id);
-        if (pos && pos.row === row && pos.col === col - 1) {
-          leftCharResult = char;
-          break;
-        }
-      }
-    }
-
-    let rightCharResult = null;
-    if (col < 12) {
-      for (const char of charArr) {
-        const pos = getCharacterPosition(char.id);
-        if (pos && pos.row === row && pos.col === col + 1) {
-          rightCharResult = char;
-          break;
-        }
-      }
-    }
-
-    return { leftChar: leftCharResult, rightChar: rightCharResult };
-  }, [currentPosition]);
-
   // Generate overlay rectangles for disabled/played characters
   const overlayRects = useMemo(() => {
     const rects: { charIndex: number; position: ReturnType<typeof getCharacterPosition>; type: 'disabled' | 'played' }[] = [];
@@ -122,20 +86,17 @@ const MainPageSelectionOverlay = ({
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   const containerStyle: CSSProperties = {
-    position: 'fixed',
-    top: 80,
-    left: 0,
-    right: 0,
-    bottom: 0,
     backgroundColor: '#1a1a2e',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
     padding: isMobile ? '10px' : '20px',
+    paddingTop: isMobile ? '10px' : '20px',
+    marginTop: 80, // Account for fixed navbar
     boxSizing: 'border-box',
-    zIndex: 100,
     overflowY: 'auto',
+    flex: 1,
   };
 
   const imageContainerStyle: CSSProperties = {
@@ -161,58 +122,6 @@ const MainPageSelectionOverlay = ({
     width: '100%',
     height: '100%',
   };
-
-  const charSliderStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '20px',
-    marginTop: '15px',
-    padding: '10px',
-  };
-
-  const mainCharImgStyle: CSSProperties = {
-    width: isMobile ? '80px' : '120px',
-    height: isMobile ? '80px' : '120px',
-    objectFit: 'contain',
-    border: '4px solid #000',
-    boxShadow: '6px 6px 0px #000',
-    background: '#2a2a4e',
-  };
-
-  const sideCharImgStyle: CSSProperties = {
-    width: isMobile ? '40px' : '60px',
-    height: isMobile ? '40px' : '60px',
-    objectFit: 'contain',
-    border: '3px solid #000',
-    boxShadow: '4px 4px 0px #000',
-    background: '#2a2a4e',
-    opacity: 0.6,
-  };
-
-  const btnRowStyle: CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '10px',
-    marginTop: '15px',
-    padding: isMobile ? '0 10px' : '0',
-  };
-
-  const navButtonStyle = (isLeft: boolean): CSSProperties => ({
-    width: isMobile ? '100px' : '150px',
-    height: '50px',
-    fontSize: '14px',
-    fontWeight: 800,
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    cursor: 'pointer',
-    border: '3px solid #000',
-    boxShadow: '4px 4px 0px #000',
-    transition: 'all 0.1s ease',
-    color: '#000',
-    backgroundColor: isLeft ? '#ff6b6b' : '#51cf66',
-    fontFamily: "'Space Mono', monospace",
-  });
 
   // Header text depends on mode
   const headerText = isRandomized && currentChar
@@ -343,65 +252,6 @@ const MainPageSelectionOverlay = ({
           )}
         </svg>
       </div>
-
-      {/* Character slider and nav buttons - only in randomized mode */}
-      {isRandomized && (
-        <>
-          <div style={charSliderStyle}>
-            {leftChar && (
-              <img
-                src={imigify(leftChar.name)}
-                alt={leftChar.name}
-                style={sideCharImgStyle}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-              />
-            )}
-
-            {currentChar && (
-              <img
-                src={imigify(currentChar.name)}
-                alt={currentChar.name}
-                style={mainCharImgStyle}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-              />
-            )}
-
-            {rightChar && (
-              <img
-                src={imigify(rightChar.name)}
-                alt={rightChar.name}
-                style={sideCharImgStyle}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-              />
-            )}
-          </div>
-
-          <div style={btnRowStyle}>
-            <button
-              type="button"
-              className="neo-btn"
-              style={navButtonStyle(true)}
-              onClick={handlePrevClick}
-            >
-              Prev
-            </button>
-            <button
-              type="button"
-              className="neo-btn"
-              style={navButtonStyle(false)}
-              onClick={handleNextClick}
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
     </div>
   );
 };

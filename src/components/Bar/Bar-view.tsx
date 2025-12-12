@@ -65,19 +65,21 @@ const Bar = ({
       >
         Screen
       </button>
-      {!isRandomized ? (
-        <button
-          type="button"
-          className="neo-btn"
-          style={{ ...themeButtonStyle, width: '100%' }}
-          data-testid="centerBtn"
-          onClick={handleRandomizeClick}
-        >
-          Randomize
-        </button>
-      ) : (
-        <div style={{ width: '100%' }} /> // Spacer when randomized
-      )}
+      <button
+        type="button"
+        className="neo-btn"
+        style={{
+          ...themeButtonStyle,
+          width: '100%',
+          opacity: isRandomized ? 0.5 : 1,
+          cursor: isRandomized ? 'not-allowed' : 'pointer',
+        }}
+        data-testid="centerBtn"
+        onClick={isRandomized ? undefined : handleRandomizeClick}
+        disabled={isRandomized}
+      >
+        Randomize
+      </button>
       <button type="button" className="neo-btn" style={buttonStyle} onClick={handleResetClick}>
         Reset
       </button>

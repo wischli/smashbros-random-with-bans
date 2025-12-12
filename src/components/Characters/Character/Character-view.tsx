@@ -1,11 +1,18 @@
 import { IChar, IState } from "../../../types/Types";
-import { charStyle, imageStyle, overlayStyle } from "./Character-style";
+import { charStyle, imageStyle, overlayStyle, nameStyle, currentHighlightStyle } from "./Character-style";
 
-export const Character = (props: { character: IChar; stateKey: keyof IState; charIndex: number; handleCharClick: Function }) => {
-  const { character, charIndex, stateKey, handleCharClick } = props;
+interface CharacterProps {
+  character: IChar;
+  stateKey: keyof IState;
+  charIndex: number;
+  handleCharClick: Function;
+  isCurrent?: boolean;
+}
+
+export const Character = ({ character, charIndex, stateKey, handleCharClick, isCurrent = false }: CharacterProps) => {
   return (
     <div
-      className="character"
+      className={`character ${isCurrent ? 'current-char' : ''}`}
       role="button"
       tabIndex={0}
       id={`${character.id}`}
@@ -15,6 +22,8 @@ export const Character = (props: { character: IChar; stateKey: keyof IState; cha
     >
       <img src={character.media} style={imageStyle()} alt={character.name} />
       <div style={overlayStyle(stateKey)} />
+      <div style={nameStyle}>{character.name}</div>
+      {isCurrent && <div style={currentHighlightStyle} className="current-highlight" />}
     </div>
   );
 };

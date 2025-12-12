@@ -26,6 +26,18 @@ code {
   box-shadow: 0px 0px 0px #000 !important;
 }
 
+/* Current character highlight pulse animation (matches screen view) */
+@keyframes currentCharPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.current-char {
+  z-index: 5;
+}
+.current-highlight {
+  animation: currentCharPulse 1.2s ease-in-out infinite;
+}
+
 /* Click animation keyframes */
 @keyframes charClick {
   0% {
@@ -45,6 +57,33 @@ code {
 .neo-btn:hover {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0px #000 !important;
+}
+
+/* Grid container responsive padding */
+.grid-container {
+  padding: 20px 10px;
+}
+@media (max-width: 1024px) {
+  .grid-container {
+    padding: 0;
+  }
+}
+
+/* Nav bar responsive styling */
+.nav {
+  padding: 10px 20px;
+  gap: 15px;
+}
+@media (max-width: 768px) {
+  .nav {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .nav .neo-btn {
+    padding: 8px 6px !important;
+    font-size: 11px !important;
+    min-width: 0 !important;
+  }
 }
 
 .close {

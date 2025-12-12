@@ -2,12 +2,13 @@ import { useReducer, useState, useEffect, useCallback } from 'react';
 import Bar from '../components/Bar/Bar-view';
 import Characters from '../components/Characters/Characters-view';
 import MainPageSelectionOverlay from '../components/MainPageSelectionOverlay/MainPageSelectionOverlay';
+import RandomizedCharDisplay from '../components/RandomizedCharDisplay/RandomizedCharDisplay';
 import ResetDialog from '../components/ResetDialog/ResetDialog';
 import { Reducer } from '../controller/Reducer';
 import { initialCharState } from '../model/charArr/charArr';
 import { Action } from '../types/Actions';
 import { IState } from '../types/Types';
-import { loadState, saveState } from '../utils';
+import { loadState, saveState, loadViewPreference, saveViewPreference, loadRandomizedState, saveRandomizedState } from '../utils';
 import { appStyle } from './App-styling';
 
 const initialOptions = {
@@ -33,13 +34,19 @@ const App = () => {
   const [state, dispatch] = useReducer(Reducer, null, getSavedOrInitialState);
   const [options, setOptions] = useState(initialOptions);
   const [isRandomized, setIsRandomized] = useState(() => {
-    // If we restored a state with played characters, randomization has started
+    // Load saved randomized state, or fallback to checking played characters
+    const savedRandomized = loadRandomizedState();
+    if (savedRandomized !== null) return savedRandomized;
+    // Fallback: if we restored a state with played characters, randomization has started
     const saved = loadState();
     return saved !== null && saved.played.length > 0;
   });
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showSelectionScreen, setShowSelectionScreen] = useState(() => {
-    // If randomization started, default to screen view
+    // Load saved view preference, or default to screen view if randomized
+    const savedView = loadViewPreference();
+    if (savedView !== null) return savedView;
+    // Fallback: if randomization started, default to screen view
     const saved = loadState();
     return saved !== null && saved.played.length > 0;
   });
@@ -48,6 +55,16 @@ const App = () => {
   useEffect(() => {
     saveState(state);
   }, [state]);
+
+  // Auto-save view preference when it changes
+  useEffect(() => {
+    saveViewPreference(showSelectionScreen);
+  }, [showSelectionScreen]);
+
+  // Auto-save randomized state when it changes
+  useEffect(() => {
+    saveRandomizedState(isRandomized);
+  }, [isRandomized]);
 
   // Check if there are any selections (played or disabled characters)
   const hasSelections = useCallback((): boolean => {
@@ -104,13 +121,24 @@ const App = () => {
           state={state}
           handleCharClick={handleCharClick}
           isRandomized={isRandomized}
-          handleNextClick={handleNextClick}
-          handlePrevClick={handlePrevClick}
         />
       ) : (
         <div className="content" style={appStyle(false)}>
-          <Characters state={state} handleCharClick={handleCharClick} />
+          <Characters
+            state={state}
+            handleCharClick={handleCharClick}
+            isRandomized={isRandomized}
+            currentCharIndex={state.enabled[0]}
+          />
         </div>
+      )}
+      {/* Randomized character display - shown below views when randomized */}
+      {isRandomized && (
+        <RandomizedCharDisplay
+          state={state}
+          handleNextClick={handleNextClick}
+          handlePrevClick={handlePrevClick}
+        />
       )}
       <Bar
         state={state}

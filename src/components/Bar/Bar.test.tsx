@@ -49,10 +49,10 @@ describe('Testing Bar Component', () => {
       expect(centerBtn.textContent).toBe('Randomize');
     });
 
-    it('Hides Randomize button when randomized', () => {
+    it('Disables Randomize button when randomized', () => {
       renderBar({ isRandomized: true });
-      const centerBtn = screen.queryByTestId('centerBtn');
-      expect(centerBtn).toBeNull();
+      const centerBtn = screen.getByTestId('centerBtn');
+      expect(centerBtn).toHaveAttribute('disabled');
     });
   });
 

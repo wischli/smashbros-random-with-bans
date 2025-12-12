@@ -89,7 +89,7 @@ const Bar = ({
 
   return (
     <div className="nav" style={navStyle}>
-      {/* Settings Button */}
+      {/* Burger Menu Button */}
       <div style={{ position: 'relative' }}>
         <button
           type="button"
@@ -97,13 +97,20 @@ const Bar = ({
           style={{
             ...buttonStyle,
             width: 45,
+            height: 45,
             padding: 0,
-            fontSize: 24,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
           onClick={() => setShowSettings(!showSettings)}
-          aria-label="Settings"
+          aria-label="Menu"
         >
-          ⚙
+          <div className={`burger-menu ${showSettings ? 'open' : ''}`}>
+            <span className="burger-line" />
+            <span className="burger-line" />
+            <span className="burger-line" />
+          </div>
         </button>
         {showSettings && (
           <div style={settingsMenuStyle}>

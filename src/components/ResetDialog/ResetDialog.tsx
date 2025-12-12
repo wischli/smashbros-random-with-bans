@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 
 interface ResetDialogProps {
   isOpen: boolean;
@@ -84,25 +84,46 @@ const ResetDialog = ({
   confirmText = 'Reset',
   confirmColor = '#e74c3c',
 }: ResetDialogProps) => {
+  const [isConfirming, setIsConfirming] = useState(false);
+
   if (!isOpen) return null;
 
+  const handleConfirmClick = () => {
+    setIsConfirming(true);
+    setTimeout(() => {
+      onConfirm();
+      setIsConfirming(false);
+    }, 600);
+  };
+
   return (
-    <div style={overlayStyle} onClick={onCancel}>
+    <div style={overlayStyle} onClick={isConfirming ? undefined : onCancel}>
       <div style={dialogStyle} onClick={(e) => e.stopPropagation()}>
         <h2 style={titleStyle}>{title}</h2>
         <p style={messageStyle}>{message}</p>
         <div style={buttonContainerStyle}>
           <button
             type="button"
-            style={cancelButtonStyle}
-            onClick={onCancel}
+            style={{
+              ...cancelButtonStyle,
+              opacity: isConfirming ? 0.5 : 1,
+              cursor: isConfirming ? 'not-allowed' : 'pointer',
+            }}
+            onClick={isConfirming ? undefined : onCancel}
+            disabled={isConfirming}
           >
             Cancel
           </button>
           <button
             type="button"
-            style={{ ...confirmButtonStyle, backgroundColor: confirmColor }}
-            onClick={onConfirm}
+            className={`neo-btn ${isConfirming ? 'randomizing' : ''}`}
+            style={{
+              ...confirmButtonStyle,
+              backgroundColor: confirmColor,
+              cursor: isConfirming ? 'not-allowed' : 'pointer',
+            }}
+            onClick={isConfirming ? undefined : handleConfirmClick}
+            disabled={isConfirming}
           >
             {confirmText}
           </button>

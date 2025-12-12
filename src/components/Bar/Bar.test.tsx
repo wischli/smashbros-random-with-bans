@@ -72,11 +72,11 @@ describe('Testing Bar Component', () => {
     });
   });
 
-  describe('Settings button', () => {
-    it('Shows settings gear button', () => {
+  describe('Menu button', () => {
+    it('Shows burger menu button', () => {
       renderBar({ isRandomized: false });
-      const settingsBtn = screen.getByLabelText('Settings');
-      expect(settingsBtn).toBeDefined();
+      const menuBtn = screen.getByLabelText('Menu');
+      expect(menuBtn).toBeDefined();
     });
   });
 });

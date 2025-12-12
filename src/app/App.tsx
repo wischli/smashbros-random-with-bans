@@ -1,91 +1,125 @@
-import React, { useReducer, useState } from 'react';
-import Cookies from 'universal-cookie';
+import { useReducer, useState, useEffect, useCallback } from 'react';
 import Bar from '../components/Bar/Bar-view';
 import Card from '../components/Card/Card-view';
 import Characters from '../components/Characters/Characters-view';
-import CookieNotice from '../components/CookieNotice/CookieNotice-container';
+import ResetDialog from '../components/ResetDialog/ResetDialog';
 import { Reducer } from '../controller/Reducer';
 import { initialCharState } from '../model/charArr/charArr';
 import { Action } from '../types/Actions';
-import { ICookies, ICState, IState } from '../types/Types';
+import { IState } from '../types/Types';
+import { loadState, saveState } from '../utils';
 import { appStyle } from './App-styling';
 
 const initialOptions = {
-	echo: true
+  echo: true,
 };
 
 const App = () => {
-	// cookies
-	const cookyInstance = new Cookies();
-	const cookieCharacters = cookyInstance.get('characters');
-	const cookieCheck: boolean =
-		cookieCharacters !== undefined &&
-		typeof cookieCharacters === 'object' &&
-		Object.keys(cookieCharacters).length > 0;
-	const cookies: ICookies = {
-		characters: cookieCheck ? (cookieCharacters as ICState) : false,
-		notice: cookyInstance.get('notice') === undefined
-	};
+  // Load saved state or use initial state
+  const getSavedOrInitialState = (): IState => {
+    const saved = loadState();
+    if (saved) {
+      return {
+        enabled: saved.enabled,
+        played: saved.played,
+        disabled: saved.disabled,
+        hidden: saved.hidden,
+      };
+    }
+    return initialCharState;
+  };
 
-	// hooks
-	const [state, dispatch]: [IState, Function] = useReducer(Reducer, initialCharState);
-	const [options, setOptions] = useState(initialOptions);
-	const [displayCard, changeDisplay] = useState(false);
-	const [displayLoad, disableLoad] = useState(cookieCheck);
-	const [displayRandomize, disableRandomize] = useState(false);
+  // State
+  const [state, dispatch] = useReducer(Reducer, null, getSavedOrInitialState);
+  const [options, setOptions] = useState(initialOptions);
+  const [displayCard, setDisplayCard] = useState(false);
+  const [displayRandomize, setDisplayRandomize] = useState(() => {
+    // If we restored a state with played characters, show the popup option
+    const saved = loadState();
+    return saved !== null && saved.played.length > 0;
+  });
+  const [showResetDialog, setShowResetDialog] = useState(false);
 
-	// handlers
-	const handleDisplayClick = () => changeDisplay(!displayCard);
-	const handleCharClick = (charIndex: number, charState: keyof IState) =>
-		dispatch({ charIndex, charState, type: Action.toggleChar });
-	const handleRandomizeClick = () => {
-		dispatch({ type: Action.randomize });
-		disableRandomize(true);
-		return handleDisplayClick();
-	};
-	const handleEchoClick = () => {
-		setOptions({ ...options, echo: !options.echo });
-		return dispatch({ type: Action.echo });
-	};
-	const handleCookieLoad = (cookieState: ICState) => {
-		disableLoad(false);
-		dispatch({ cookieState, type: Action.restore });
-		disableRandomize(true);
-		return changeDisplay(true);
-	};
-	const handleNextClick = () => dispatch({ type: Action.next });
-	const handlePrevClick = () => dispatch({ type: Action.previous });
+  // Auto-save state to localStorage on every state change
+  useEffect(() => {
+    saveState(state);
+  }, [state]);
 
-	// components
-	return (
-		<div className="wrapper">
-			<meta name="viewport" content="width=device-width, user-scalable=no" />
-			<div className="content" style={appStyle(displayCard || displayLoad)}>
-				<CookieNotice cookies={cookies} />
-				<Characters state={state} handleCharClick={handleCharClick} />
-			</div>
-			<Bar
-				state={state}
-				displayCard={displayCard}
-				handleRandomizeClick={handleRandomizeClick}
-				handleDisplayClick={handleDisplayClick}
-				handleEchoClick={handleEchoClick}
-				displayRandomize={displayRandomize}
-				options={options}
-			/>
-			<Card
-				cookies={cookies}
-				state={state}
-				handleNextClick={handleNextClick}
-				handlePrevClick={handlePrevClick}
-				displayCard={displayCard}
-				displayLoad={displayLoad}
-				disableLoad={disableLoad}
-				handleDisplayClick={handleDisplayClick}
-				handleCookieLoad={handleCookieLoad}
-			/>
-		</div>
-	);
+  // Check if there are any selections (played or disabled characters)
+  const hasSelections = useCallback((): boolean => {
+    return state.played.length > 0 || state.disabled.length > 0;
+  }, [state.played.length, state.disabled.length]);
+
+  // Handlers
+  const handleDisplayClick = () => setDisplayCard(!displayCard);
+
+  const handleCharClick = (charIndex: number, charState: keyof IState) => {
+    dispatch({ charIndex, charState, type: Action.toggleChar });
+  };
+
+  const handleRandomizeClick = () => {
+    dispatch({ type: Action.randomize });
+    setDisplayRandomize(true);
+    setDisplayCard(true);
+  };
+
+  const handleEchoClick = () => {
+    setOptions({ ...options, echo: !options.echo });
+    dispatch({ type: Action.echo });
+  };
+
+  const handleNextClick = () => dispatch({ type: Action.next });
+  const handlePrevClick = () => dispatch({ type: Action.previous });
+
+  // Reset handler with confirmation
+  const handleResetClick = () => {
+    if (hasSelections()) {
+      setShowResetDialog(true);
+    } else {
+      performReset();
+    }
+  };
+
+  const performReset = () => {
+    dispatch({ type: Action.reset });
+    setDisplayRandomize(false);
+    setDisplayCard(false);
+    setShowResetDialog(false);
+  };
+
+  const handleCancelReset = () => {
+    setShowResetDialog(false);
+  };
+
+  return (
+    <div className="wrapper">
+      <div className="content" style={appStyle(displayCard)}>
+        <Characters state={state} handleCharClick={handleCharClick} />
+      </div>
+      <Bar
+        state={state}
+        displayCard={displayCard}
+        handleRandomizeClick={handleRandomizeClick}
+        handleDisplayClick={handleDisplayClick}
+        handleEchoClick={handleEchoClick}
+        handleResetClick={handleResetClick}
+        displayRandomize={displayRandomize}
+        options={options}
+      />
+      <Card
+        state={state}
+        handleNextClick={handleNextClick}
+        handlePrevClick={handlePrevClick}
+        displayCard={displayCard}
+        handleDisplayClick={handleDisplayClick}
+      />
+      <ResetDialog
+        isOpen={showResetDialog}
+        onConfirm={performReset}
+        onCancel={handleCancelReset}
+      />
+    </div>
+  );
 };
 
 export default App;

@@ -1,7 +1,7 @@
 import { charArr } from '../../model/charArr/charArr';
 import { IState } from '../../types/Types';
-import { imigify } from '../../utils';
-import { btnRowStyle, buttonStyle, cardImgStyle, cardStyle, cardTitleStyle, closeBtnStyle } from './Card-style';
+import { btnRowStyle, buttonStyle, cardStyle, cardTitleStyle, closeBtnStyle } from './Card-style';
+import SelectionScreenOverlay from '../SelectionScreenOverlay/SelectionScreenOverlay';
 
 interface CardProps {
   state: IState;
@@ -35,14 +35,9 @@ const Card = ({
         aria-label="Close"
       />
       <h2 style={cardTitleStyle}>{character.name}</h2>
-      <img
-        src={imigify(character.name)}
-        style={cardImgStyle}
-        alt={character.name}
-        onError={(e) => {
-          // Hide broken images
-          (e.target as HTMLImageElement).style.display = 'none';
-        }}
+      <SelectionScreenOverlay
+        state={state}
+        currentCharIndex={state.enabled[0]}
       />
       <div style={btnRowStyle}>
         <button

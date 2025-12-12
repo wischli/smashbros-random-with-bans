@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import { charArr } from '../../model/charArr/charArr';
 import { getGridLayout } from '../../model/charArr/selectionScreenPositions';
 import { IChar, IState } from '../../types/Types';
 import { Character } from './Character/Character-view';
-import { gridContainerStyle, gridStyle, gridRowStyle, emptyCellStyle } from './Characters-style';
+import { gridContainerStyle, gridStyle, gridRowStyle, emptyCellStyle, CELL_SIZE, CELL_GAP } from './Characters-style';
 
 interface CharactersProps {
   state: IState;
@@ -13,6 +13,8 @@ interface CharactersProps {
 }
 
 const Characters = ({ state, handleCharClick, isRandomized = false, currentCharIndex }: CharactersProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   // Build grid layout once
   const gridLayout = useMemo(() => getGridLayout(), []);
 
@@ -52,8 +54,47 @@ const Characters = ({ state, handleCharClick, isRandomized = false, currentCharI
     return { char, charIndex: stateInfo.charIndex, stateKey: stateInfo.stateKey };
   };
 
+  // Find character's column position in the grid
+  const getCharacterColumn = (charIndex: number): number | null => {
+    const char = charArr[charIndex];
+    if (!char) return null;
+
+    for (let row = 0; row < gridLayout.length; row++) {
+      for (let col = 0; col < gridLayout[row].length; col++) {
+        if (gridLayout[row][col] === char.id) {
+          return col;
+        }
+      }
+    }
+    return null;
+  };
+
+  // Auto-scroll to center current character when it changes (only when randomized)
+  useEffect(() => {
+    if (!isRandomized || currentCharIndex === undefined || !containerRef.current) return;
+
+    const col = getCharacterColumn(currentCharIndex);
+    if (col === null) return;
+
+    const container = containerRef.current;
+    const containerWidth = container.clientWidth;
+    const cellWidth = CELL_SIZE + CELL_GAP;
+
+    // Calculate the X position of the character's center
+    const charCenterX = col * cellWidth + CELL_SIZE / 2;
+
+    // Calculate scroll position to center the character
+    const targetScroll = charCenterX - containerWidth / 2;
+
+    // Smooth scroll to the target position
+    container.scrollTo({
+      left: Math.max(0, targetScroll),
+      behavior: 'smooth',
+    });
+  }, [currentCharIndex, isRandomized, gridLayout]);
+
   return (
-    <div className="grid-container" style={gridContainerStyle}>
+    <div ref={containerRef} className="grid-container" style={gridContainerStyle}>
       <div style={gridStyle}>
         {gridLayout.map((row, rowIndex) => (
           <div key={`row-${rowIndex}`} style={gridRowStyle}>

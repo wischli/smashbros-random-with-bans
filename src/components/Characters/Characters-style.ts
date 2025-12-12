@@ -1,8 +1,8 @@
 import { color } from '../../layout/themeStyle'
 
 // Fixed cell size for the grid
-const CELL_SIZE = 75;
-const CELL_GAP = 2;
+export const CELL_SIZE = 75;
+export const CELL_GAP = 2;
 
 // Container with horizontal scroll
 // Note: padding is handled via CSS class 'grid-container' for responsive behavior

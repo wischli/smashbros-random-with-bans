@@ -6,9 +6,9 @@ import Bar from './Bar-view';
 
 const context = {
   handleRandomizeClick: vi.fn(),
-  handleDisplayClick: vi.fn(),
   handleEchoClick: vi.fn(),
   handleResetClick: vi.fn(),
+  handleSelectionScreenToggle: vi.fn(),
 };
 
 let state: IState;
@@ -17,89 +17,80 @@ beforeEach(() => {
 });
 
 const renderBar = ({
-  displayCard,
-  displayRandomize,
+  isRandomized,
   echo = true,
+  showSelectionScreen = false,
 }: {
-  displayCard: boolean;
-  displayRandomize: boolean;
+  isRandomized: boolean;
   echo?: boolean;
+  showSelectionScreen?: boolean;
 }) => {
-  const { handleDisplayClick, handleRandomizeClick, handleEchoClick, handleResetClick } = context;
+  const { handleRandomizeClick, handleEchoClick, handleResetClick, handleSelectionScreenToggle } = context;
   return render(
     <Bar
       state={state}
-      displayCard={displayCard}
-      handleDisplayClick={handleDisplayClick}
       handleRandomizeClick={handleRandomizeClick}
       handleEchoClick={handleEchoClick}
       handleResetClick={handleResetClick}
-      displayRandomize={displayRandomize}
+      handleSelectionScreenToggle={handleSelectionScreenToggle}
+      isRandomized={isRandomized}
       options={{ echo }}
+      showSelectionScreen={showSelectionScreen}
     />
   );
 };
 
 describe('Testing Bar Component', () => {
-  describe('It displays "Close Popup" on center button', () => {
-    it('Tests displayCard: true, displayRandomize: true, echo: true', () => {
-      renderBar({ displayCard: true, displayRandomize: true });
-      const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toBeDefined();
-      expect(centerBtn.textContent).toBe('Close Popup');
-    });
-
-    it('Tests displayCard: true, displayRandomize: false, echo: true', () => {
-      renderBar({ displayCard: true, displayRandomize: false });
-      const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toBeDefined();
-      expect(centerBtn.textContent).toBe('Close Popup');
-    });
-
-    it('Tests displayCard: true, displayRandomize: true, echo: false', () => {
-      renderBar({ displayCard: true, displayRandomize: true, echo: false });
-      const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toBeDefined();
-      expect(centerBtn.textContent).toBe('Close Popup');
-    });
-
-    it('Tests displayCard: true, displayRandomize: false, echo: false', () => {
-      renderBar({ displayCard: true, displayRandomize: false, echo: false });
-      const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toBeDefined();
-      expect(centerBtn.textContent).toBe('Close Popup');
-    });
-  });
-
-  describe('It displays "Show Popup" on center button', () => {
-    it('Tests displayCard: false, displayRandomize: true, echo: true', () => {
-      renderBar({ displayCard: false, displayRandomize: true });
-      const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toBeDefined();
-      expect(centerBtn.textContent).toBe('Show Popup');
-    });
-
-    it('Tests displayCard: false, displayRandomize: true, echo: false', () => {
-      renderBar({ displayCard: false, displayRandomize: true, echo: false });
-      const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toBeDefined();
-      expect(centerBtn.textContent).toBe('Show Popup');
-    });
-  });
-
-  describe('It displays "Randomize" on center button', () => {
-    it('Tests displayCard: false, displayRandomize: false, echo: true', () => {
-      renderBar({ displayCard: false, displayRandomize: false });
+  describe('Randomize button', () => {
+    it('Shows Randomize button when not randomized', () => {
+      renderBar({ isRandomized: false });
       const centerBtn = screen.getByTestId('centerBtn');
       expect(centerBtn).toBeDefined();
       expect(centerBtn.textContent).toBe('Randomize');
     });
 
-    it('Tests displayCard: false, displayRandomize: false, echo: false', () => {
-      renderBar({ displayCard: false, displayRandomize: false, echo: false });
+    it('Disables Randomize button when randomized', () => {
+      renderBar({ isRandomized: true });
       const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toBeDefined();
-      expect(centerBtn.textContent).toBe('Randomize');
+      expect(centerBtn).toHaveAttribute('disabled');
+    });
+  });
+
+  describe('Echo button', () => {
+    it('Shows "Hide Echoes" when echo is true', () => {
+      renderBar({ isRandomized: false, echo: true });
+      expect(screen.getByText('Hide Echoes')).toBeDefined();
+    });
+
+    it('Shows "Show Echoes" when echo is false', () => {
+      renderBar({ isRandomized: false, echo: false });
+      expect(screen.getByText('Show Echoes')).toBeDefined();
+    });
+
+    it('Disables echo button when randomized', () => {
+      renderBar({ isRandomized: true, echo: true });
+      const echoBtn = screen.getByText('Hide Echoes');
+      expect(echoBtn).toHaveAttribute('disabled');
+    });
+  });
+
+  describe('View toggle buttons', () => {
+    it('Shows Grid and Screen buttons', () => {
+      renderBar({ isRandomized: false });
+      expect(screen.getByText('Grid')).toBeDefined();
+      expect(screen.getByText('Screen')).toBeDefined();
+    });
+
+    it('Grid button is disabled when in grid view', () => {
+      renderBar({ isRandomized: false, showSelectionScreen: false });
+      const gridBtn = screen.getByText('Grid');
+      expect(gridBtn).toHaveAttribute('disabled');
+    });
+
+    it('Screen button is disabled when in screen view', () => {
+      renderBar({ isRandomized: false, showSelectionScreen: true });
+      const screenBtn = screen.getByText('Screen');
+      expect(screenBtn).toHaveAttribute('disabled');
     });
   });
 });

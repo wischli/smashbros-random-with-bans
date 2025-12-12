@@ -1,13 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Space Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #1a1a2e;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: 'Space Mono', monospace;
+}
+
+/* Neo-brutalism hover effects */
+.character {
+  transition: all 0.15s ease;
+}
+.character:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000 !important;
+}
+.character:active {
+  transform: translate(4px, 4px) scale(0.95);
+  box-shadow: 0px 0px 0px #000 !important;
+}
+
+/* Character disable animation - flash and fade */
+@keyframes charDisable {
+  0% {
+    filter: brightness(1);
+  }
+  20% {
+    filter: brightness(1.8) saturate(0.3);
+  }
+  40% {
+    filter: brightness(0.6);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+@keyframes overlayFadeIn {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  30% {
+    opacity: 0.8;
+    backdrop-filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(0px);
+  }
+}
+.character.state-changing {
+  animation: charDisable 0.4s ease-out;
+}
+.character.state-changing .char-overlay {
+  animation: overlayFadeIn 0.4s ease-out;
+}
+
+/* Current character highlight pulse animation (matches screen view) */
+@keyframes currentCharPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.current-char {
+  z-index: 5;
+}
+.current-highlight {
+  animation: currentCharPulse 1.2s ease-in-out infinite;
+}
+
+/* Click animation keyframes */
+@keyframes charClick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.neo-btn {
+  transition: all 0.15s ease;
+}
+.neo-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000 !important;
+}
+
+/* Randomize button animation */
+@keyframes randomizeSpin {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  15% {
+    transform: scale(0.9) rotate(-5deg);
+  }
+  30% {
+    transform: scale(1.05) rotate(3deg);
+  }
+  45% {
+    transform: scale(0.95) rotate(-3deg);
+  }
+  60% {
+    transform: scale(1.08) rotate(2deg);
+  }
+  75% {
+    transform: scale(0.98) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+@keyframes randomizeGlow {
+  0% {
+    box-shadow: 3px 3px 0px #000;
+    background-color: #51cf66;
+  }
+  25% {
+    box-shadow: 0 0 20px #51cf66, 0 0 40px #51cf66, 3px 3px 0px #000;
+    background-color: #69db7c;
+  }
+  50% {
+    box-shadow: 0 0 30px #ffd43b, 0 0 60px #ffd43b, 3px 3px 0px #000;
+    background-color: #ffd43b;
+  }
+  75% {
+    box-shadow: 0 0 20px #51cf66, 0 0 40px #51cf66, 3px 3px 0px #000;
+    background-color: #69db7c;
+  }
+  100% {
+    box-shadow: 3px 3px 0px #000;
+    background-color: #51cf66;
+  }
+}
+@keyframes randomizeText {
+  0%, 100% {
+    letter-spacing: 1px;
+  }
+  25% {
+    letter-spacing: 3px;
+  }
+  50% {
+    letter-spacing: 5px;
+  }
+  75% {
+    letter-spacing: 3px;
+  }
+}
+.neo-btn.randomizing {
+  animation: randomizeSpin 0.6s ease-out, randomizeGlow 0.6s ease-out, randomizeText 0.6s ease-out;
+  pointer-events: none;
+}
+
+/* View transition animations - TV Static/Power Off effect */
+.view-container {
+  width: 100%;
+  min-height: 100%;
+}
+
+/* TV turn off - compress to horizontal line then vanish */
+@keyframes tvOff {
+  0% {
+    transform: scale(1, 1);
+    filter: brightness(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02, 0.01);
+    filter: brightness(2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0, 0);
+    filter: brightness(3);
+    opacity: 0;
+  }
+}
+
+/* TV turn on - expand from horizontal line */
+@keyframes tvOn {
+  0% {
+    transform: scale(0, 0.01);
+    filter: brightness(3);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.02, 0.01);
+    filter: brightness(2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1, 1);
+    filter: brightness(1);
+    opacity: 1;
+  }
+}
+
+.view-exit-to-screen,
+.view-exit-to-grid {
+  animation: tvOff 0.18s ease-in forwards;
+}
+
+.view-enter {
+  animation: tvOn 0.2s ease-out;
+}
+
+/* Grid container responsive padding */
+.grid-container {
+  padding: 20px 10px;
+}
+@media (max-width: 1024px) {
+  .grid-container {
+    padding: 0;
+  }
+}
+
+/* Nav bar responsive styling */
+.nav {
+  padding: 10px 20px;
+  gap: 15px;
+}
+@media (max-width: 768px) {
+  .nav {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .nav .neo-btn {
+    padding: 8px 6px !important;
+    font-size: 11px !important;
+    min-width: 0 !important;
+  }
 }
 
 .close {

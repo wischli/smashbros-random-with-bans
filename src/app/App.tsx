@@ -1,13 +1,14 @@
 import { useReducer, useState, useEffect, useCallback } from 'react';
 import Bar from '../components/Bar/Bar-view';
-import Card from '../components/Card/Card-view';
 import Characters from '../components/Characters/Characters-view';
+import MainPageSelectionOverlay from '../components/MainPageSelectionOverlay/MainPageSelectionOverlay';
+import RandomizedCharDisplay from '../components/RandomizedCharDisplay/RandomizedCharDisplay';
 import ResetDialog from '../components/ResetDialog/ResetDialog';
 import { Reducer } from '../controller/Reducer';
 import { initialCharState } from '../model/charArr/charArr';
 import { Action } from '../types/Actions';
 import { IState } from '../types/Types';
-import { loadState, saveState } from '../utils';
+import { loadState, saveState, loadViewPreference, saveViewPreference, loadRandomizedState, saveRandomizedState } from '../utils';
 import { appStyle } from './App-styling';
 
 const initialOptions = {
@@ -32,18 +33,38 @@ const App = () => {
   // State
   const [state, dispatch] = useReducer(Reducer, null, getSavedOrInitialState);
   const [options, setOptions] = useState(initialOptions);
-  const [displayCard, setDisplayCard] = useState(false);
-  const [displayRandomize, setDisplayRandomize] = useState(() => {
-    // If we restored a state with played characters, show the popup option
+  const [isRandomized, setIsRandomized] = useState(() => {
+    // Load saved randomized state, or fallback to checking played characters
+    const savedRandomized = loadRandomizedState();
+    if (savedRandomized !== null) return savedRandomized;
+    // Fallback: if we restored a state with played characters, randomization has started
     const saved = loadState();
     return saved !== null && saved.played.length > 0;
   });
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [showSelectionScreen, setShowSelectionScreen] = useState(() => {
+    // Load saved view preference, or default to screen view if randomized
+    const savedView = loadViewPreference();
+    if (savedView !== null) return savedView;
+    // Fallback: if randomization started, default to screen view
+    const saved = loadState();
+    return saved !== null && saved.played.length > 0;
+  });
 
   // Auto-save state to localStorage on every state change
   useEffect(() => {
     saveState(state);
   }, [state]);
+
+  // Auto-save view preference when it changes
+  useEffect(() => {
+    saveViewPreference(showSelectionScreen);
+  }, [showSelectionScreen]);
+
+  // Auto-save randomized state when it changes
+  useEffect(() => {
+    saveRandomizedState(isRandomized);
+  }, [isRandomized]);
 
   // Check if there are any selections (played or disabled characters)
   const hasSelections = useCallback((): boolean => {
@@ -51,16 +72,14 @@ const App = () => {
   }, [state.played.length, state.disabled.length]);
 
   // Handlers
-  const handleDisplayClick = () => setDisplayCard(!displayCard);
-
   const handleCharClick = (charIndex: number, charState: keyof IState) => {
     dispatch({ charIndex, charState, type: Action.toggleChar });
   };
 
   const handleRandomizeClick = () => {
     dispatch({ type: Action.randomize });
-    setDisplayRandomize(true);
-    setDisplayCard(true);
+    setIsRandomized(true);
+    setShowSelectionScreen(true); // Auto-switch to screen view
   };
 
   const handleEchoClick = () => {
@@ -82,8 +101,8 @@ const App = () => {
 
   const performReset = () => {
     dispatch({ type: Action.reset });
-    setDisplayRandomize(false);
-    setDisplayCard(false);
+    setIsRandomized(false);
+    setShowSelectionScreen(false); // Go back to grid view
     setShowResetDialog(false);
   };
 
@@ -91,27 +110,59 @@ const App = () => {
     setShowResetDialog(false);
   };
 
+  const [isViewTransitioning, setIsViewTransitioning] = useState(false);
+  const [transitionDirection, setTransitionDirection] = useState<'to-screen' | 'to-grid'>('to-screen');
+
+  const handleSelectionScreenToggle = () => {
+    setTransitionDirection(showSelectionScreen ? 'to-grid' : 'to-screen');
+    setIsViewTransitioning(true);
+    setTimeout(() => {
+      setShowSelectionScreen(!showSelectionScreen);
+      setTimeout(() => setIsViewTransitioning(false), 50);
+    }, 180);
+  };
+
+  const viewTransitionClass = isViewTransitioning
+    ? `view-exit-${transitionDirection}`
+    : 'view-enter';
+
   return (
     <div className="wrapper">
-      <div className="content" style={appStyle(displayCard)}>
-        <Characters state={state} handleCharClick={handleCharClick} />
+      <div className={`view-container ${viewTransitionClass}`}>
+        {showSelectionScreen ? (
+          <MainPageSelectionOverlay
+            state={state}
+            handleCharClick={handleCharClick}
+            isRandomized={isRandomized}
+          />
+        ) : (
+          <div className="content" style={appStyle(false)}>
+            <Characters
+              state={state}
+              handleCharClick={handleCharClick}
+              isRandomized={isRandomized}
+              currentCharIndex={state.enabled[0]}
+            />
+          </div>
+        )}
       </div>
+      {/* Randomized character display - shown below views when randomized */}
+      {isRandomized && (
+        <RandomizedCharDisplay
+          state={state}
+          handleNextClick={handleNextClick}
+          handlePrevClick={handlePrevClick}
+        />
+      )}
       <Bar
         state={state}
-        displayCard={displayCard}
         handleRandomizeClick={handleRandomizeClick}
-        handleDisplayClick={handleDisplayClick}
         handleEchoClick={handleEchoClick}
         handleResetClick={handleResetClick}
-        displayRandomize={displayRandomize}
+        handleSelectionScreenToggle={handleSelectionScreenToggle}
+        isRandomized={isRandomized}
         options={options}
-      />
-      <Card
-        state={state}
-        handleNextClick={handleNextClick}
-        handlePrevClick={handlePrevClick}
-        displayCard={displayCard}
-        handleDisplayClick={handleDisplayClick}
+        showSelectionScreen={showSelectionScreen}
       />
       <ResetDialog
         isOpen={showResetDialog}

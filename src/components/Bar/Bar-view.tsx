@@ -4,49 +4,33 @@ import { IState } from '../../types/Types';
 
 interface BarProps {
   state: IState;
-  displayCard: boolean;
   handleRandomizeClick: () => void;
-  handleDisplayClick: () => void;
   handleEchoClick: () => void;
   handleResetClick: () => void;
-  displayRandomize: boolean;
+  handleSelectionScreenToggle: () => void;
+  isRandomized: boolean;
   options: { echo: boolean };
+  showSelectionScreen: boolean;
 }
 
 const Bar = ({
-  displayCard,
   handleRandomizeClick,
-  handleDisplayClick,
   handleEchoClick,
   handleResetClick,
-  displayRandomize,
+  handleSelectionScreenToggle,
+  isRandomized,
   options,
+  showSelectionScreen,
 }: BarProps) => {
-  // Set center button message and action
-  let centerBtn: {
-    action: () => void;
-    msg: string;
-  };
-
-  if (displayCard) {
-    centerBtn = {
-      action: handleDisplayClick,
-      msg: 'Close Popup',
-    };
-  } else if (displayRandomize) {
-    centerBtn = {
-      action: handleDisplayClick,
-      msg: 'Show Popup',
-    };
-  } else {
-    centerBtn = {
-      action: handleRandomizeClick,
-      msg: 'Randomize',
-    };
-  }
-
   // Disable echo toggle once randomization has started
-  const echoButtonDisabled = displayRandomize;
+  const echoButtonDisabled = isRandomized;
+
+  // View toggle button styling - different background for active view
+  const viewButtonStyle = (isActive: boolean): React.CSSProperties => ({
+    ...buttonStyle,
+    backgroundColor: isActive ? '#51cf66' : '#ffffff',
+    color: '#000000',
+  });
 
   return (
     <div className="nav" style={navStyle}>
@@ -66,12 +50,34 @@ const Bar = ({
       <button
         type="button"
         className="neo-btn"
-        style={{ ...themeButtonStyle, width: '100%' }}
-        data-testid="centerBtn"
-        onClick={centerBtn.action}
+        style={viewButtonStyle(!showSelectionScreen)}
+        onClick={showSelectionScreen ? handleSelectionScreenToggle : undefined}
+        disabled={!showSelectionScreen}
       >
-        {centerBtn.msg}
+        Grid
       </button>
+      <button
+        type="button"
+        className="neo-btn"
+        style={viewButtonStyle(showSelectionScreen)}
+        onClick={!showSelectionScreen ? handleSelectionScreenToggle : undefined}
+        disabled={showSelectionScreen}
+      >
+        Screen
+      </button>
+      {!isRandomized ? (
+        <button
+          type="button"
+          className="neo-btn"
+          style={{ ...themeButtonStyle, width: '100%' }}
+          data-testid="centerBtn"
+          onClick={handleRandomizeClick}
+        >
+          Randomize
+        </button>
+      ) : (
+        <div style={{ width: '100%' }} /> // Spacer when randomized
+      )}
       <button type="button" className="neo-btn" style={buttonStyle} onClick={handleResetClick}>
         Reset
       </button>

@@ -1,7 +1,7 @@
 import { useReducer, useState, useEffect, useCallback } from 'react';
 import Bar from '../components/Bar/Bar-view';
-import Card from '../components/Card/Card-view';
 import Characters from '../components/Characters/Characters-view';
+import MainPageSelectionOverlay from '../components/MainPageSelectionOverlay/MainPageSelectionOverlay';
 import ResetDialog from '../components/ResetDialog/ResetDialog';
 import { Reducer } from '../controller/Reducer';
 import { initialCharState } from '../model/charArr/charArr';
@@ -32,13 +32,17 @@ const App = () => {
   // State
   const [state, dispatch] = useReducer(Reducer, null, getSavedOrInitialState);
   const [options, setOptions] = useState(initialOptions);
-  const [displayCard, setDisplayCard] = useState(false);
-  const [displayRandomize, setDisplayRandomize] = useState(() => {
-    // If we restored a state with played characters, show the popup option
+  const [isRandomized, setIsRandomized] = useState(() => {
+    // If we restored a state with played characters, randomization has started
     const saved = loadState();
     return saved !== null && saved.played.length > 0;
   });
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [showSelectionScreen, setShowSelectionScreen] = useState(() => {
+    // If randomization started, default to screen view
+    const saved = loadState();
+    return saved !== null && saved.played.length > 0;
+  });
 
   // Auto-save state to localStorage on every state change
   useEffect(() => {
@@ -51,16 +55,14 @@ const App = () => {
   }, [state.played.length, state.disabled.length]);
 
   // Handlers
-  const handleDisplayClick = () => setDisplayCard(!displayCard);
-
   const handleCharClick = (charIndex: number, charState: keyof IState) => {
     dispatch({ charIndex, charState, type: Action.toggleChar });
   };
 
   const handleRandomizeClick = () => {
     dispatch({ type: Action.randomize });
-    setDisplayRandomize(true);
-    setDisplayCard(true);
+    setIsRandomized(true);
+    setShowSelectionScreen(true); // Auto-switch to screen view
   };
 
   const handleEchoClick = () => {
@@ -82,8 +84,8 @@ const App = () => {
 
   const performReset = () => {
     dispatch({ type: Action.reset });
-    setDisplayRandomize(false);
-    setDisplayCard(false);
+    setIsRandomized(false);
+    setShowSelectionScreen(false); // Go back to grid view
     setShowResetDialog(false);
   };
 
@@ -91,27 +93,34 @@ const App = () => {
     setShowResetDialog(false);
   };
 
+  const handleSelectionScreenToggle = () => {
+    setShowSelectionScreen(!showSelectionScreen);
+  };
+
   return (
     <div className="wrapper">
-      <div className="content" style={appStyle(displayCard)}>
-        <Characters state={state} handleCharClick={handleCharClick} />
-      </div>
+      {showSelectionScreen ? (
+        <MainPageSelectionOverlay
+          state={state}
+          handleCharClick={handleCharClick}
+          isRandomized={isRandomized}
+          handleNextClick={handleNextClick}
+          handlePrevClick={handlePrevClick}
+        />
+      ) : (
+        <div className="content" style={appStyle(false)}>
+          <Characters state={state} handleCharClick={handleCharClick} />
+        </div>
+      )}
       <Bar
         state={state}
-        displayCard={displayCard}
         handleRandomizeClick={handleRandomizeClick}
-        handleDisplayClick={handleDisplayClick}
         handleEchoClick={handleEchoClick}
         handleResetClick={handleResetClick}
-        displayRandomize={displayRandomize}
+        handleSelectionScreenToggle={handleSelectionScreenToggle}
+        isRandomized={isRandomized}
         options={options}
-      />
-      <Card
-        state={state}
-        handleNextClick={handleNextClick}
-        handlePrevClick={handlePrevClick}
-        displayCard={displayCard}
-        handleDisplayClick={handleDisplayClick}
+        showSelectionScreen={showSelectionScreen}
       />
       <ResetDialog
         isOpen={showResetDialog}

@@ -160,61 +160,57 @@ code {
   pointer-events: none;
 }
 
-/* View transition animations */
+/* View transition animations - TV Static/Power Off effect */
 .view-container {
   width: 100%;
   min-height: 100%;
 }
 
-@keyframes viewSlideOutLeft {
+/* TV turn off - compress to horizontal line then vanish */
+@keyframes tvOff {
   0% {
-    transform: translateX(0) scale(1) rotateY(0deg);
+    transform: scale(1, 1);
+    filter: brightness(1);
     opacity: 1;
-    filter: blur(0px);
+  }
+  50% {
+    transform: scale(1.02, 0.01);
+    filter: brightness(2);
+    opacity: 1;
   }
   100% {
-    transform: translateX(-100%) scale(0.8) rotateY(-15deg);
+    transform: scale(0, 0);
+    filter: brightness(3);
     opacity: 0;
-    filter: blur(8px);
   }
 }
 
-@keyframes viewSlideOutRight {
+/* TV turn on - expand from horizontal line */
+@keyframes tvOn {
   0% {
-    transform: translateX(0) scale(1) rotateY(0deg);
+    transform: scale(0, 0.01);
+    filter: brightness(3);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.02, 0.01);
+    filter: brightness(2);
     opacity: 1;
-    filter: blur(0px);
   }
   100% {
-    transform: translateX(100%) scale(0.8) rotateY(15deg);
-    opacity: 0;
-    filter: blur(8px);
-  }
-}
-
-@keyframes viewSlideIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-    filter: blur(4px);
-  }
-  100% {
+    transform: scale(1, 1);
+    filter: brightness(1);
     opacity: 1;
-    transform: scale(1);
-    filter: blur(0px);
   }
 }
 
-.view-exit-to-screen {
-  animation: viewSlideOutLeft 0.3s ease-in forwards;
-}
-
+.view-exit-to-screen,
 .view-exit-to-grid {
-  animation: viewSlideOutRight 0.3s ease-in forwards;
+  animation: tvOff 0.18s ease-in forwards;
 }
 
 .view-enter {
-  animation: viewSlideIn 0.3s ease-out;
+  animation: tvOn 0.2s ease-out;
 }
 
 /* Grid container responsive padding */

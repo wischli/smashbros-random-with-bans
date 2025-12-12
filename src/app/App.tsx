@@ -119,7 +119,7 @@ const App = () => {
     setTimeout(() => {
       setShowSelectionScreen(!showSelectionScreen);
       setTimeout(() => setIsViewTransitioning(false), 50);
-    }, 300);
+    }, 180);
   };
 
   const viewTransitionClass = isViewTransitioning

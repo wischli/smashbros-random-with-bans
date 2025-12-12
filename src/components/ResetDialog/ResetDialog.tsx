@@ -4,6 +4,10 @@ interface ResetDialogProps {
   isOpen: boolean;
   onConfirm: () => void;
   onCancel: () => void;
+  title?: string;
+  message?: string;
+  confirmText?: string;
+  confirmColor?: string;
 }
 
 const overlayStyle: CSSProperties = {
@@ -71,17 +75,22 @@ const cancelButtonStyle: CSSProperties = {
   color: '#fff',
 };
 
-const ResetDialog = ({ isOpen, onConfirm, onCancel }: ResetDialogProps) => {
+const ResetDialog = ({
+  isOpen,
+  onConfirm,
+  onCancel,
+  title = 'Reset Selection?',
+  message = 'You have characters that have been played or disabled. Resetting will clear all your progress. Are you sure?',
+  confirmText = 'Reset',
+  confirmColor = '#e74c3c',
+}: ResetDialogProps) => {
   if (!isOpen) return null;
 
   return (
     <div style={overlayStyle} onClick={onCancel}>
       <div style={dialogStyle} onClick={(e) => e.stopPropagation()}>
-        <h2 style={titleStyle}>Reset Selection?</h2>
-        <p style={messageStyle}>
-          You have characters that have been played or disabled.
-          Resetting will clear all your progress. Are you sure?
-        </p>
+        <h2 style={titleStyle}>{title}</h2>
+        <p style={messageStyle}>{message}</p>
         <div style={buttonContainerStyle}>
           <button
             type="button"
@@ -92,10 +101,10 @@ const ResetDialog = ({ isOpen, onConfirm, onCancel }: ResetDialogProps) => {
           </button>
           <button
             type="button"
-            style={confirmButtonStyle}
+            style={{ ...confirmButtonStyle, backgroundColor: confirmColor }}
             onClick={onConfirm}
           >
-            Reset
+            {confirmText}
           </button>
         </div>
       </div>

@@ -8,6 +8,8 @@ const context = {
   handleRandomizeClick: vi.fn(),
   handleEchoClick: vi.fn(),
   handleResetClick: vi.fn(),
+  handleResetPlayedClick: vi.fn(),
+  handleNextClick: vi.fn(),
   handleSelectionScreenToggle: vi.fn(),
 };
 
@@ -25,13 +27,15 @@ const renderBar = ({
   echo?: boolean;
   showSelectionScreen?: boolean;
 }) => {
-  const { handleRandomizeClick, handleEchoClick, handleResetClick, handleSelectionScreenToggle } = context;
+  const { handleRandomizeClick, handleEchoClick, handleResetClick, handleResetPlayedClick, handleNextClick, handleSelectionScreenToggle } = context;
   return render(
     <Bar
       state={state}
       handleRandomizeClick={handleRandomizeClick}
       handleEchoClick={handleEchoClick}
       handleResetClick={handleResetClick}
+      handleResetPlayedClick={handleResetPlayedClick}
+      handleNextClick={handleNextClick}
       handleSelectionScreenToggle={handleSelectionScreenToggle}
       isRandomized={isRandomized}
       options={{ echo }}
@@ -41,7 +45,7 @@ const renderBar = ({
 };
 
 describe('Testing Bar Component', () => {
-  describe('Randomize button', () => {
+  describe('Primary action button', () => {
     it('Shows Randomize button when not randomized', () => {
       renderBar({ isRandomized: false });
       const centerBtn = screen.getByTestId('centerBtn');
@@ -49,48 +53,30 @@ describe('Testing Bar Component', () => {
       expect(centerBtn.textContent).toBe('Randomize');
     });
 
-    it('Disables Randomize button when randomized', () => {
+    it('Shows Next Player button when randomized', () => {
       renderBar({ isRandomized: true });
       const centerBtn = screen.getByTestId('centerBtn');
-      expect(centerBtn).toHaveAttribute('disabled');
+      expect(centerBtn.textContent).toBe('Next Player');
     });
   });
 
-  describe('Echo button', () => {
-    it('Shows "Hide Echoes" when echo is true', () => {
-      renderBar({ isRandomized: false, echo: true });
-      expect(screen.getByText('Hide Echoes')).toBeDefined();
-    });
-
-    it('Shows "Show Echoes" when echo is false', () => {
-      renderBar({ isRandomized: false, echo: false });
-      expect(screen.getByText('Show Echoes')).toBeDefined();
-    });
-
-    it('Disables echo button when randomized', () => {
-      renderBar({ isRandomized: true, echo: true });
-      const echoBtn = screen.getByText('Hide Echoes');
-      expect(echoBtn).toHaveAttribute('disabled');
-    });
-  });
-
-  describe('View toggle buttons', () => {
-    it('Shows Grid and Screen buttons', () => {
-      renderBar({ isRandomized: false });
+  describe('View toggle button', () => {
+    it('Shows Grid when in grid view', () => {
+      renderBar({ isRandomized: false, showSelectionScreen: false });
       expect(screen.getByText('Grid')).toBeDefined();
+    });
+
+    it('Shows Screen when in screen view', () => {
+      renderBar({ isRandomized: false, showSelectionScreen: true });
       expect(screen.getByText('Screen')).toBeDefined();
     });
+  });
 
-    it('Grid button is disabled when in grid view', () => {
-      renderBar({ isRandomized: false, showSelectionScreen: false });
-      const gridBtn = screen.getByText('Grid');
-      expect(gridBtn).toHaveAttribute('disabled');
-    });
-
-    it('Screen button is disabled when in screen view', () => {
-      renderBar({ isRandomized: false, showSelectionScreen: true });
-      const screenBtn = screen.getByText('Screen');
-      expect(screenBtn).toHaveAttribute('disabled');
+  describe('Settings button', () => {
+    it('Shows settings gear button', () => {
+      renderBar({ isRandomized: false });
+      const settingsBtn = screen.getByLabelText('Settings');
+      expect(settingsBtn).toBeDefined();
     });
   });
 });

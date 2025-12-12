@@ -106,6 +106,8 @@ export const Reducer = (inputState: IState, action: { type: Action; cookieState?
     }
     case Action.reset:
       return initialCharState
+    case Action.resetPlayed:
+      return resetPlayed(state)
     default:
       throw new Error(`Unhandled Reducer action "${action}"`)
   }

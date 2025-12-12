@@ -42,6 +42,7 @@ const App = () => {
     return saved !== null && saved.played.length > 0;
   });
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [showResetPlayedDialog, setShowResetPlayedDialog] = useState(false);
   const [showSelectionScreen, setShowSelectionScreen] = useState(() => {
     // Load saved view preference, or default to screen view if randomized
     const savedView = loadViewPreference();
@@ -90,7 +91,7 @@ const App = () => {
   const handleNextClick = () => dispatch({ type: Action.next });
   const handlePrevClick = () => dispatch({ type: Action.previous });
 
-  // Reset handler with confirmation
+  // Reset All handler with confirmation
   const handleResetClick = () => {
     if (hasSelections()) {
       setShowResetDialog(true);
@@ -106,8 +107,26 @@ const App = () => {
     setShowResetDialog(false);
   };
 
+  // Reset Played - keeps bans, reshuffles for new round
+  const handleResetPlayedClick = () => {
+    if (state.played.length > 0) {
+      setShowResetPlayedDialog(true);
+    } else {
+      performResetPlayed();
+    }
+  };
+
+  const performResetPlayed = () => {
+    dispatch({ type: Action.resetPlayed });
+    setShowResetPlayedDialog(false);
+  };
+
   const handleCancelReset = () => {
     setShowResetDialog(false);
+  };
+
+  const handleCancelResetPlayed = () => {
+    setShowResetPlayedDialog(false);
   };
 
   const [isViewTransitioning, setIsViewTransitioning] = useState(false);
@@ -159,6 +178,8 @@ const App = () => {
         handleRandomizeClick={handleRandomizeClick}
         handleEchoClick={handleEchoClick}
         handleResetClick={handleResetClick}
+        handleResetPlayedClick={handleResetPlayedClick}
+        handleNextClick={handleNextClick}
         handleSelectionScreenToggle={handleSelectionScreenToggle}
         isRandomized={isRandomized}
         options={options}
@@ -168,6 +189,19 @@ const App = () => {
         isOpen={showResetDialog}
         onConfirm={performReset}
         onCancel={handleCancelReset}
+        title="Reset All?"
+        message="This will clear all bans, played characters, and start fresh. Are you sure?"
+        confirmText="Reset All"
+        confirmColor="#e74c3c"
+      />
+      <ResetDialog
+        isOpen={showResetPlayedDialog}
+        onConfirm={performResetPlayed}
+        onCancel={handleCancelResetPlayed}
+        title="Start New Round?"
+        message="This will reshuffle all played characters back into the pool. Your bans will be kept. Continue?"
+        confirmText="New Round"
+        confirmColor="#51cf66"
       />
     </div>
   );

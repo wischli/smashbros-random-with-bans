@@ -1,9 +1,13 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 
 interface ResetDialogProps {
   isOpen: boolean;
   onConfirm: () => void;
   onCancel: () => void;
+  title?: string;
+  message?: string;
+  confirmText?: string;
+  confirmColor?: string;
 }
 
 const overlayStyle: CSSProperties = {
@@ -71,31 +75,57 @@ const cancelButtonStyle: CSSProperties = {
   color: '#fff',
 };
 
-const ResetDialog = ({ isOpen, onConfirm, onCancel }: ResetDialogProps) => {
+const ResetDialog = ({
+  isOpen,
+  onConfirm,
+  onCancel,
+  title = 'Reset Selection?',
+  message = 'You have characters that have been played or disabled. Resetting will clear all your progress. Are you sure?',
+  confirmText = 'Reset',
+  confirmColor = '#e74c3c',
+}: ResetDialogProps) => {
+  const [isConfirming, setIsConfirming] = useState(false);
+
   if (!isOpen) return null;
 
+  const handleConfirmClick = () => {
+    setIsConfirming(true);
+    setTimeout(() => {
+      onConfirm();
+      setIsConfirming(false);
+    }, 600);
+  };
+
   return (
-    <div style={overlayStyle} onClick={onCancel}>
+    <div style={overlayStyle} onClick={isConfirming ? undefined : onCancel}>
       <div style={dialogStyle} onClick={(e) => e.stopPropagation()}>
-        <h2 style={titleStyle}>Reset Selection?</h2>
-        <p style={messageStyle}>
-          You have characters that have been played or disabled.
-          Resetting will clear all your progress. Are you sure?
-        </p>
+        <h2 style={titleStyle}>{title}</h2>
+        <p style={messageStyle}>{message}</p>
         <div style={buttonContainerStyle}>
           <button
             type="button"
-            style={cancelButtonStyle}
-            onClick={onCancel}
+            style={{
+              ...cancelButtonStyle,
+              opacity: isConfirming ? 0.5 : 1,
+              cursor: isConfirming ? 'not-allowed' : 'pointer',
+            }}
+            onClick={isConfirming ? undefined : onCancel}
+            disabled={isConfirming}
           >
             Cancel
           </button>
           <button
             type="button"
-            style={confirmButtonStyle}
-            onClick={onConfirm}
+            className={`neo-btn ${isConfirming ? 'randomizing' : ''}`}
+            style={{
+              ...confirmButtonStyle,
+              backgroundColor: confirmColor,
+              cursor: isConfirming ? 'not-allowed' : 'pointer',
+            }}
+            onClick={isConfirming ? undefined : handleConfirmClick}
+            disabled={isConfirming}
           >
-            Reset
+            {confirmText}
           </button>
         </div>
       </div>

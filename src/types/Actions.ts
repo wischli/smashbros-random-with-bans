@@ -6,5 +6,6 @@ export enum Action {
   echo = 'echo',
   save = 'save',
   reset = 'reset',
+  resetPlayed = 'resetPlayed',
   toggleChar = 'toggleChar',
 }

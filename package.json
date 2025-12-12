@@ -1,71 +1,45 @@
 {
-  "name": "smash",
-  "version": "0.1.0",
+  "name": "smash-random-with-bans",
+  "version": "2.0.0",
   "private": true,
-  "dependencies": {
-    "@types/jest": "^25.1.3",
-    "@types/node": "^13.7.6",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
-    "lodash": "^4.17.19",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-scripts": "^3.4.0",
-    "universal-cookie": "^4.0.3"
-  },
-  "homepage": "http://wischli.github.io/smashbros-random-with-bans",
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "watch": "tsc -p . -w",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "license": "MIT",
   "devDependencies": {
-    "@types/enzyme": "^3.10.5",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/puppeteer": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "^2.21.0",
-    "@typescript-eslint/parser": "^2.21.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "enzyme-to-json": "^3.4.4",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-airbnb-typescript": "^7.0.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-config-react-app": "^5.2.0",
-    "eslint-plugin-flowtype": "^4.6.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^2.5.0",
-    "gh-pages": "^2.2.0",
-    "prettier": "^1.19.1",
-    "puppeteer": "^2.1.1",
-    "typescript": "^3.8.2"
+    "@eslint/js": "^9.17.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "gh-pages": "^6.2.0",
+    "globals": "^15.14.0",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1",
+    "vite": "^6.0.3",
+    "vitest": "^2.1.8"
   },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
-  "prettier": {
-    "printWidth": 200,
-    "singleQuote": true,
-    "trailingComma": "all"
-  }
+  "homepage": "https://wischli.github.io/smashbros-random-with-bans",
+  "license": "MIT"
 }

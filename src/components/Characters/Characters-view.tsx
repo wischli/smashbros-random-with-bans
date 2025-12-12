@@ -1,4 +1,3 @@
-import React from 'react';
 import { charArr } from '../../model/charArr/charArr';
 import { IChar, IState } from '../../types/Types';
 import { Character } from './Character/Character-view';

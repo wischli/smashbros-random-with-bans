@@ -15,6 +15,11 @@ export interface IState {
   hidden: number[];
 }
 
+export interface ISavedState extends IState {
+  date: string;
+}
+
+// Legacy types for backwards compatibility
 export interface ICState extends IState {
   date: string;
 }

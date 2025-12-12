@@ -5,7 +5,7 @@ import { randomize } from '../utils'
 export const resetPlayed = (inputState: IState) => {
   const state = { ...inputState }
   state.enabled = randomize(
-    [...inputState.enabled, ...inputState.played].map((rest, charIndex: number) => {
+    [...inputState.enabled, ...inputState.played].map((_, charIndex: number) => {
       return charIndex
     }),
   )

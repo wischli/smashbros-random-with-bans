@@ -1,4 +1,3 @@
-import React from "react";
 import { IChar, IState } from "../../../types/Types";
 import { charStyle, imageStyle } from "./Character-style";
 

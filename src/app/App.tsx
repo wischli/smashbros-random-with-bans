@@ -206,6 +206,7 @@ const App = () => {
         isRandomized={isRandomized}
         options={options}
         showSelectionScreen={showSelectionScreen}
+        isRoundComplete={isRandomized && state.enabled.length === 1}
       />
       <ResetDialog
         isOpen={showResetDialog}

@@ -15,6 +15,7 @@ interface BarProps {
   isRandomized: boolean;
   options: { echo: boolean };
   showSelectionScreen: boolean;
+  isRoundComplete?: boolean;
 }
 
 const Bar = ({
@@ -28,6 +29,7 @@ const Bar = ({
   isRandomized,
   options,
   showSelectionScreen,
+  isRoundComplete = false,
 }: BarProps) => {
   const [isRandomizing, setIsRandomizing] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -190,17 +192,66 @@ const Bar = ({
         <span style={{ fontSize: 16 }}>⇄</span>
       </button>
 
-      {/* Primary Action - Randomize or Next Player */}
-      <button
-        type="button"
-        className={`neo-btn ${isRandomizing ? 'randomizing' : ''}`}
-        style={primaryButtonStyle}
-        data-testid="centerBtn"
-        onClick={isRandomizing ? undefined : (isRandomized ? handleNextClick : onRandomizeClick)}
-        disabled={isRandomizing}
-      >
-        {isRandomized ? 'Next Player' : 'Randomize'}
-      </button>
+      {/* Primary Action - changes based on game state */}
+      {isRoundComplete ? (
+        // Round complete: show Reset All and Reset Played buttons
+        <>
+          <button
+            type="button"
+            className={`neo-btn ${isRandomizing ? 'randomizing' : ''}`}
+            style={{
+              ...themeButtonStyle,
+              flex: 1,
+              backgroundColor: '#ff6b6b',
+              cursor: isRandomizing ? 'not-allowed' : 'pointer',
+            }}
+            data-testid="resetAllBtn"
+            onClick={isRandomizing ? undefined : () => {
+              setIsRandomizing(true);
+              setTimeout(() => {
+                handleResetClick();
+                setIsRandomizing(false);
+              }, 600);
+            }}
+            disabled={isRandomizing}
+          >
+            Reset All
+          </button>
+          <button
+            type="button"
+            className={`neo-btn ${isRandomizing ? 'randomizing' : ''}`}
+            style={{
+              ...themeButtonStyle,
+              flex: 1,
+              backgroundColor: '#51cf66',
+              cursor: isRandomizing ? 'not-allowed' : 'pointer',
+            }}
+            data-testid="resetPlayedBtn"
+            onClick={isRandomizing ? undefined : () => {
+              setIsRandomizing(true);
+              setTimeout(() => {
+                handleResetPlayedClick();
+                setIsRandomizing(false);
+              }, 600);
+            }}
+            disabled={isRandomizing}
+          >
+            New Round
+          </button>
+        </>
+      ) : (
+        // Normal state: Randomize or Next Player
+        <button
+          type="button"
+          className={`neo-btn ${isRandomizing ? 'randomizing' : ''}`}
+          style={primaryButtonStyle}
+          data-testid="centerBtn"
+          onClick={isRandomizing ? undefined : (isRandomized ? handleNextClick : onRandomizeClick)}
+          disabled={isRandomizing}
+        >
+          {isRandomized ? 'Next Player' : 'Randomize'}
+        </button>
+      )}
 
       {/* Click outside to close settings */}
       {showSettings && (

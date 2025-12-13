@@ -1,6 +1,7 @@
 import { useReducer, useState, useEffect, useCallback } from 'react';
 import Bar from '../components/Bar/Bar-view';
 import Characters from '../components/Characters/Characters-view';
+import HelpOverlay from '../components/HelpOverlay/HelpOverlay';
 import MainPageSelectionOverlay from '../components/MainPageSelectionOverlay/MainPageSelectionOverlay';
 import RandomizedCharDisplay from '../components/RandomizedCharDisplay/RandomizedCharDisplay';
 import ResetDialog from '../components/ResetDialog/ResetDialog';
@@ -43,6 +44,7 @@ const App = () => {
   });
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showResetPlayedDialog, setShowResetPlayedDialog] = useState(false);
+  const [showHelpOverlay, setShowHelpOverlay] = useState(false);
   const [showSelectionScreen, setShowSelectionScreen] = useState(() => {
     // Load saved view preference, or default to screen view if randomized
     const savedView = loadViewPreference();
@@ -66,6 +68,21 @@ const App = () => {
   useEffect(() => {
     saveRandomizedState(isRandomized);
   }, [isRandomized]);
+
+  // Keyboard shortcuts for help overlay
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'F1' || (e.shiftKey && e.key === '?')) {
+        e.preventDefault();
+        setShowHelpOverlay(prev => !prev);
+      }
+      if (e.key === 'Escape' && showHelpOverlay) {
+        setShowHelpOverlay(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showHelpOverlay]);
 
   // Check if there are any selections (played or disabled characters)
   const hasSelections = useCallback((): boolean => {
@@ -129,6 +146,10 @@ const App = () => {
     setShowResetPlayedDialog(false);
   };
 
+  const handleHelpClick = () => {
+    setShowHelpOverlay(true);
+  };
+
   const [isViewTransitioning, setIsViewTransitioning] = useState(false);
   const [transitionDirection, setTransitionDirection] = useState<'to-screen' | 'to-grid'>('to-screen');
 
@@ -181,6 +202,7 @@ const App = () => {
         handleResetPlayedClick={handleResetPlayedClick}
         handleNextClick={handleNextClick}
         handleSelectionScreenToggle={handleSelectionScreenToggle}
+        handleHelpClick={handleHelpClick}
         isRandomized={isRandomized}
         options={options}
         showSelectionScreen={showSelectionScreen}
@@ -202,6 +224,15 @@ const App = () => {
         message="This will reshuffle all played characters back into the pool. Your bans will be kept. Continue?"
         confirmText="New Round"
         confirmColor="#51cf66"
+      />
+      <HelpOverlay
+        isOpen={showHelpOverlay}
+        onClose={() => setShowHelpOverlay(false)}
+        isRandomized={isRandomized}
+        showSelectionScreen={showSelectionScreen}
+        options={options}
+        hasPlayedChars={state.played.length > 0}
+        hasDisabledChars={state.disabled.length > 0}
       />
     </div>
   );

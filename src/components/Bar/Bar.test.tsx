@@ -11,6 +11,7 @@ const context = {
   handleResetPlayedClick: vi.fn(),
   handleNextClick: vi.fn(),
   handleSelectionScreenToggle: vi.fn(),
+  handleHelpClick: vi.fn(),
 };
 
 let state: IState;
@@ -27,7 +28,7 @@ const renderBar = ({
   echo?: boolean;
   showSelectionScreen?: boolean;
 }) => {
-  const { handleRandomizeClick, handleEchoClick, handleResetClick, handleResetPlayedClick, handleNextClick, handleSelectionScreenToggle } = context;
+  const { handleRandomizeClick, handleEchoClick, handleResetClick, handleResetPlayedClick, handleNextClick, handleSelectionScreenToggle, handleHelpClick } = context;
   return render(
     <Bar
       state={state}
@@ -37,6 +38,7 @@ const renderBar = ({
       handleResetPlayedClick={handleResetPlayedClick}
       handleNextClick={handleNextClick}
       handleSelectionScreenToggle={handleSelectionScreenToggle}
+      handleHelpClick={handleHelpClick}
       isRandomized={isRandomized}
       options={{ echo }}
       showSelectionScreen={showSelectionScreen}

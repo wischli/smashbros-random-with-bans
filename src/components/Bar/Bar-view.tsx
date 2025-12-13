@@ -11,6 +11,7 @@ interface BarProps {
   handleResetPlayedClick: () => void;
   handleNextClick: () => void;
   handleSelectionScreenToggle: () => void;
+  handleHelpClick: () => void;
   isRandomized: boolean;
   options: { echo: boolean };
   showSelectionScreen: boolean;
@@ -23,6 +24,7 @@ const Bar = ({
   handleResetPlayedClick,
   handleNextClick,
   handleSelectionScreenToggle,
+  handleHelpClick,
   isRandomized,
   options,
   showSelectionScreen,
@@ -114,6 +116,19 @@ const Bar = ({
         </button>
         {showSettings && (
           <div style={settingsMenuStyle}>
+            <div
+              style={{
+                ...settingsItemStyle,
+                color: '#339af0',
+              }}
+              onClick={() => {
+                handleHelpClick();
+                setShowSettings(false);
+              }}
+            >
+              <span style={{ width: 16 }}>?</span>
+              Help
+            </div>
             <div
               style={{
                 ...settingsItemStyle,

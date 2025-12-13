@@ -320,3 +320,55 @@ code {
 .burger-menu.open .burger-line:nth-child(3) {
   transform: translateY(0) rotate(-45deg);
 }
+
+/* Help Overlay Animations */
+@keyframes helpOverlayFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes helpContentSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes helpCardStagger {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.help-overlay {
+  animation: helpOverlayFadeIn 0.2s ease-out;
+}
+
+.help-content {
+  animation: helpContentSlideIn 0.3s ease-out;
+}
+
+.help-annotation {
+  animation: helpCardStagger 0.3s ease-out backwards;
+}
+
+.help-annotation:nth-child(1) { animation-delay: 0.05s; }
+.help-annotation:nth-child(2) { animation-delay: 0.1s; }
+.help-annotation:nth-child(3) { animation-delay: 0.15s; }
+.help-annotation:nth-child(4) { animation-delay: 0.2s; }
+.help-annotation:nth-child(5) { animation-delay: 0.25s; }
+.help-annotation:nth-child(6) { animation-delay: 0.3s; }
+.help-annotation:nth-child(7) { animation-delay: 0.35s; }

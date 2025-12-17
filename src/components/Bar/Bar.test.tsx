@@ -23,10 +23,12 @@ const renderBar = ({
   isRandomized,
   echo = true,
   showSelectionScreen = false,
+  isRoundComplete = false,
 }: {
   isRandomized: boolean;
   echo?: boolean;
   showSelectionScreen?: boolean;
+  isRoundComplete?: boolean;
 }) => {
   const { handleRandomizeClick, handleEchoClick, handleResetClick, handleResetPlayedClick, handleNextClick, handleSelectionScreenToggle, handleHelpClick } = context;
   return render(
@@ -42,6 +44,7 @@ const renderBar = ({
       isRandomized={isRandomized}
       options={{ echo }}
       showSelectionScreen={showSelectionScreen}
+      isRoundComplete={isRoundComplete}
     />
   );
 };
@@ -79,6 +82,32 @@ describe('Testing Bar Component', () => {
       renderBar({ isRandomized: false });
       const menuBtn = screen.getByLabelText('Menu');
       expect(menuBtn).toBeDefined();
+    });
+  });
+
+  describe('Round complete state', () => {
+    it('Shows Reset All and New Round buttons when round is complete', () => {
+      renderBar({ isRandomized: true, isRoundComplete: true });
+
+      expect(screen.getByTestId('resetAllBtn')).toBeInTheDocument();
+      expect(screen.getByTestId('resetPlayedBtn')).toBeInTheDocument();
+      expect(screen.getByText('Reset All')).toBeInTheDocument();
+      expect(screen.getByText('New Round')).toBeInTheDocument();
+    });
+
+    it('Does not show Next Player button when round is complete', () => {
+      renderBar({ isRandomized: true, isRoundComplete: true });
+
+      expect(screen.queryByTestId('centerBtn')).not.toBeInTheDocument();
+      expect(screen.queryByText('Next Player')).not.toBeInTheDocument();
+    });
+
+    it('Shows Next Player button when randomized but round not complete', () => {
+      renderBar({ isRandomized: true, isRoundComplete: false });
+
+      expect(screen.getByTestId('centerBtn')).toBeInTheDocument();
+      expect(screen.getByText('Next Player')).toBeInTheDocument();
+      expect(screen.queryByTestId('resetAllBtn')).not.toBeInTheDocument();
     });
   });
 });
